@@ -460,7 +460,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.TaxiComp"
+                                "$ref": "#/definitions/models.GetTaxiComp"
                             }
                         }
                     },
@@ -570,7 +570,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.TaxiComp"
+                            "$ref": "#/definitions/models.GetTaxiComp"
                         }
                     },
                     "400": {
@@ -1222,6 +1222,20 @@
                 }
             }
         },
+        "models.GetTaxiComp": {
+            "type": "object",
+            "properties": {
+                "company_title": {
+                    "type": "string"
+                },
+                "driver": {
+                    "$ref": "#/definitions/models.User"
+                },
+                "driver_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.Rating": {
             "type": "object",
             "properties": {
@@ -1283,9 +1297,6 @@
                 },
                 "driver_id": {
                     "type": "integer"
-                },
-                "user": {
-                    "$ref": "#/definitions/models.User"
                 }
             }
         },

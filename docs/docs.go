@@ -466,7 +466,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.TaxiComp"
+                                "$ref": "#/definitions/models.GetTaxiComp"
                             }
                         }
                     },
@@ -576,7 +576,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.TaxiComp"
+                            "$ref": "#/definitions/models.GetTaxiComp"
                         }
                     },
                     "400": {
@@ -1228,6 +1228,20 @@ const docTemplate = `{
                 }
             }
         },
+        "models.GetTaxiComp": {
+            "type": "object",
+            "properties": {
+                "company_title": {
+                    "type": "string"
+                },
+                "driver": {
+                    "$ref": "#/definitions/models.User"
+                },
+                "driver_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.Rating": {
             "type": "object",
             "properties": {
@@ -1289,9 +1303,6 @@ const docTemplate = `{
                 },
                 "driver_id": {
                     "type": "integer"
-                },
-                "user": {
-                    "$ref": "#/definitions/models.User"
                 }
             }
         },
