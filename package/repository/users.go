@@ -46,7 +46,7 @@ func EditUserRating(rating, id int) error {
 }
 
 func GetAllUsers(isdeleted bool, isblocked bool, urole string) (user []models.User, err error) {
-	err = db.GetconnectDB().Where("is_deleted=? AND is_blocked=? AND role=?", isdeleted, isblocked, urole).Find(&user).Error
+	err = db.GetconnectDB().Omit("password").Where("is_deleted=? AND is_blocked=? AND role=?", isdeleted, isblocked, urole).Find(&user).Error
 	if err != nil {
 		logger.Error.Printf("[repository.getallusers]error in getting all users %s\n", err.Error())
 		return user, translateErrors(err)
@@ -55,7 +55,7 @@ func GetAllUsers(isdeleted bool, isblocked bool, urole string) (user []models.Us
 }
 
 func GetAllUserByID(isdeleted bool, isblocked bool, id int) (user []models.User, err error) {
-	err = db.GetconnectDB().Where("is_deleted=?", isdeleted).Where("is_blocked=?", isblocked).Where("id=?", id).Find(&user).Error
+	err = db.GetconnectDB().Omit("password").Where("is_deleted=?", isdeleted).Where("is_blocked=?", isblocked).Where("id=?", id).Find(&user).Error
 	if err != nil {
 		logger.Error.Printf("[repository.getallusersbyid]error in getting all users by id %s\n", err.Error())
 		return user, translateErrors(err)
