@@ -43,8 +43,6 @@ func CreateRoute(c *gin.Context) {
 		return
 	}
 	newroute.DriverID = int(userID)
-	newroute.Pricekm = 1
-	newroute.AllPrice = newroute.Distance * newroute.Pricekm
 	logger.Info.Printf("[controllers.AddRoute] add route is succesful")
 
 	err = service.AddRoute(newroute)
@@ -131,10 +129,6 @@ func GetAllRoutes(c *gin.Context) {
 	urole := c.GetString(userRoleCtx)
 	if urole == "" {
 		HandleError(c, errs.ErrValidationFailed)
-		return
-	}
-	if urole != "driver" && urole != "user" {
-		HandleError(c, errs.ErrPermissionDenied)
 		return
 	}
 
@@ -267,10 +261,7 @@ func ChecksRouteasResponse(c *gin.Context) {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	if urole != "user" && urole != "driver" {
-		HandleError(c, errs.ErrPermissionDenied)
-		return
-	}
+
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		logger.Error.Printf("[controllers.ChecksRouteasResponse] invalid route_id path parameter: %s\n", c.Param("id"))
