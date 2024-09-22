@@ -43,6 +43,7 @@ type GetRoutes struct {
 	Pricekm    int    `json:"price"`
 	AllPrice   int    `json:"all_price"`
 	IsResponse bool   `gorm:"default false" json:"is_response"`
+	IsDeleted  bool   `gorm:"default false" json:"-"`
 }
 
 type Reports struct {
