@@ -20,6 +20,19 @@ definitions:
       is_response:
         type: boolean
     type: object
+  models.EditRoute:
+    properties:
+      distance:
+        type: integer
+      from:
+        type: string
+      into:
+        type: string
+      is_response:
+        type: boolean
+      price:
+        type: integer
+    type: object
   models.GetRoutes:
     properties:
       all_price:
@@ -369,7 +382,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/models.Route'
+          $ref: '#/definitions/models.EditRoute'
       produces:
       - application/json
       responses:

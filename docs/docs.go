@@ -293,7 +293,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Route"
+                            "$ref": "#/definitions/models.EditRoute"
                         }
                     }
                 ],
@@ -1193,6 +1193,26 @@ const docTemplate = `{
             "properties": {
                 "is_response": {
                     "type": "boolean"
+                }
+            }
+        },
+        "models.EditRoute": {
+            "type": "object",
+            "properties": {
+                "distance": {
+                    "type": "integer"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "into": {
+                    "type": "string"
+                },
+                "is_response": {
+                    "type": "boolean"
+                },
+                "price": {
+                    "type": "integer"
                 }
             }
         },
