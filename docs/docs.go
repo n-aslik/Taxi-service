@@ -1208,9 +1208,6 @@ const docTemplate = `{
                 "into": {
                     "type": "string"
                 },
-                "is_response": {
-                    "type": "boolean"
-                },
                 "price": {
                     "type": "integer"
                 }
