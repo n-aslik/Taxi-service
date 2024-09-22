@@ -287,7 +287,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.EditRoute"
+                            "$ref": "#/definitions/models.Route"
                         }
                     }
                 ],
@@ -1190,23 +1190,6 @@
                 }
             }
         },
-        "models.EditRoute": {
-            "type": "object",
-            "properties": {
-                "distance": {
-                    "type": "integer"
-                },
-                "from": {
-                    "type": "string"
-                },
-                "into": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "integer"
-                }
-            }
-        },
         "models.GetRoutes": {
             "type": "object",
             "properties": {
@@ -1272,6 +1255,9 @@
                 },
                 "into": {
                     "type": "string"
+                },
+                "price": {
+                    "type": "integer"
                 }
             }
         },

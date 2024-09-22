@@ -7,7 +7,6 @@ import (
 )
 
 func AddRoute(routes models.Route) error {
-	routes.Pricekm = 1
 	routes.AllPrice = routes.Distance * routes.Pricekm
 	err := repository.InsertRoutes(routes)
 	if err != nil {
@@ -17,7 +16,7 @@ func AddRoute(routes models.Route) error {
 }
 func UpdateRoute(route models.Route, did, id int) error {
 	route.AllPrice = route.Distance * route.Pricekm
-	err := repository.EditRoutes(route.From, route.Into, route.Distance, route.Pricekm, route.IsResponse, did, id)
+	err := repository.EditRoutes(route.From, route.Into, route.Distance, route.Pricekm, route.AllPrice, route.IsResponse, did, id)
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -20,17 +20,6 @@ definitions:
       is_response:
         type: boolean
     type: object
-  models.EditRoute:
-    properties:
-      distance:
-        type: integer
-      from:
-        type: string
-      into:
-        type: string
-      price:
-        type: integer
-    type: object
   models.GetRoutes:
     properties:
       all_price:
@@ -74,6 +63,8 @@ definitions:
         type: string
       into:
         type: string
+      price:
+        type: integer
     type: object
   models.SwagSignIn:
     properties:
@@ -378,7 +369,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/models.EditRoute'
+          $ref: '#/definitions/models.Route'
       produces:
       - application/json
       responses:
