@@ -120,13 +120,6 @@ const docTemplate = `{
                         "name": "all_price",
                         "in": "query",
                         "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "fill if you need search",
-                        "name": "driver_id",
-                        "in": "query",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -238,13 +231,6 @@ const docTemplate = `{
                         "description": "id of the route",
                         "name": "id",
                         "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "fill if you need search",
-                        "name": "driver_id",
-                        "in": "query",
                         "required": true
                     }
                 ],
