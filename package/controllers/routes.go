@@ -145,14 +145,8 @@ func GetAllRoutes(c *gin.Context) {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	driverID := c.Query("driver_id")
-	uid, err := strconv.ParseUint(driverID, 10, 32)
-	if err != nil {
-		HandleError(c, errs.ErrValidationFailed)
-		return
-	}
 
-	routes, err := service.PrintAllRoutes(false, isResp, price, uint(uid))
+	routes, err := service.PrintAllRoutes(false, isResp, price, uint(userID))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
@@ -186,13 +180,7 @@ func GetAllRoutesByID(c *gin.Context) {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	driverID := c.Query("driver_id")
-	uid, err := strconv.ParseUint(driverID, 10, 32)
-	if err != nil {
-		HandleError(c, errs.ErrValidationFailed)
-		return
-	}
-	route, err := service.PrintAllRouteByID(false, uint(rid), uint(uid))
+	route, err := service.PrintAllRouteByID(false, uint(rid), uint(userID))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
