@@ -7,12 +7,12 @@ import (
 )
 
 func AddRoute(routes models.Route) error {
+	routes.Pricekm = 1
+	routes.AllPrice = routes.Distance * routes.Pricekm
 	err := repository.InsertRoutes(routes)
 	if err != nil {
 		fmt.Println(err)
 	}
-	routes.Pricekm = 1
-	routes.AllPrice = routes.Distance * routes.Pricekm
 	return nil
 }
 func UpdateRoute(route models.Route, did, id int) error {
