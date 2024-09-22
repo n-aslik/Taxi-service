@@ -128,7 +128,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.GetRoutes"
+                                "$ref": "#/definitions/models.Route"
                             }
                         }
                     },
@@ -238,7 +238,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.GetRoutes"
+                            "$ref": "#/definitions/models.Route"
                         }
                     },
                     "400": {

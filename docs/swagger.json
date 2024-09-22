@@ -122,7 +122,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.GetRoutes"
+                                "$ref": "#/definitions/models.Route"
                             }
                         }
                     },
@@ -232,7 +232,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.GetRoutes"
+                            "$ref": "#/definitions/models.Route"
                         }
                     },
                     "400": {
