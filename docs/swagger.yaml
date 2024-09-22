@@ -37,6 +37,35 @@ definitions:
     properties:
       all_price:
         type: integer
+      distance:
+        type: integer
+      from:
+        type: string
+      into:
+        type: string
+      is_response:
+        type: boolean
+      price:
+        type: integer
+    type: object
+  models.GetTaxiComp:
+    properties:
+      company_title:
+        type: string
+      driver:
+        $ref: '#/definitions/models.User'
+      driver_id:
+        type: integer
+    type: object
+  models.Rating:
+    properties:
+      rating:
+        type: integer
+    type: object
+  models.Reports:
+    properties:
+      all_price:
+        type: integer
       client_id:
         type: integer
       distance:
@@ -52,20 +81,6 @@ definitions:
       is_response:
         type: boolean
       pricekm:
-        type: integer
-    type: object
-  models.GetTaxiComp:
-    properties:
-      company_title:
-        type: string
-      driver:
-        $ref: '#/definitions/models.User'
-      driver_id:
-        type: integer
-    type: object
-  models.Rating:
-    properties:
-      rating:
         type: integer
     type: object
   models.Route:
@@ -160,7 +175,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.GetRoutes'
+              $ref: '#/definitions/models.Reports'
             type: array
         "400":
           description: Bad Request
@@ -205,7 +220,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Route'
+              $ref: '#/definitions/models.GetRoutes'
             type: array
         "400":
           description: Bad Request
@@ -307,7 +322,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Route'
+            $ref: '#/definitions/models.GetRoutes'
         "400":
           description: Bad Request
           schema:

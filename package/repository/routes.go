@@ -29,7 +29,7 @@ func SoftDeleteRoutes(isdeleted bool, id int) error {
 	return nil
 }
 
-func Report(isresp, isdeletedr, isblocked, isdeletedu bool, price int) (route []models.GetRoutes, err error) {
+func Report(isresp, isdeletedr, isblocked, isdeletedu bool, price int) (route []models.Reports, err error) {
 	err = db.GetconnectDB().Raw("Select r.from, r.into, r.is_response, SUM(DISTINCT r.distance) as distance ,SUM(DISTINCT r.pricekm) as pricekm, SUM(r.all_price/2) as all_price, COUNT(DISTINCT CASE WHEN u.role='user' THEN u.id END) as client_id, COUNT(DISTINCT CASE WHEN u.role='driver' THEN u.id END) as driver_id FROM routes r, users u Where r.client_id=u.id OR r.driver_id=u.id  AND  r.is_response=? AND r.is_deleted=?  AND u.is_blocked=? AND u.is_deleted=? AND all_price<=? GROUP BY  r.from,r.into,r.is_response ORDER BY all_price DESC", isresp, isdeletedr, isblocked, isdeletedu, price).Scan(&route).Error
 	if err != nil {
 		logger.Error.Printf("[repository.GetAllRoutes]error in report %s\n", err.Error())
@@ -38,7 +38,7 @@ func Report(isresp, isdeletedr, isblocked, isdeletedu bool, price int) (route []
 	return route, nil
 }
 func GetAllRoutes(isdeleted, isresp bool, price int, uid uint) (route []models.Route, err error) {
-	err = db.GetconnectDB().Where("routes.is_deleted=? AND routes.is_response=? AND all_price<=?", isdeleted, isresp, price).Where("routes.driver_id=?", uid).Find(&route).Error
+	err = db.GetconnectDB().Where("routes.is_deleted=? AND routes.is_response=? AND all_price<=?", isdeleted, isresp, price).Where("routes.driver_id=? OR routes.client_id=? ", uid, uid).Find(&route).Error
 	if err != nil {
 		logger.Error.Printf("[repository.GetAllRoutesByID]error in getting all order %s\n", err.Error())
 		return route, err
@@ -46,7 +46,7 @@ func GetAllRoutes(isdeleted, isresp bool, price int, uid uint) (route []models.R
 	return route, nil
 }
 func GetAllRoutesByID(isdeleted bool, id, uid uint) (route []models.Route, err error) {
-	err = db.GetconnectDB().Where("routes.is_deleted=?", isdeleted).Where("routes.id=? AND routes.driver_id=?", id, uid).Find(&route).Error
+	err = db.GetconnectDB().Where("routes.is_deleted=?", isdeleted).Where("routes.id=? AND (routes.driver_id=? OR routes.client_id=?) ", id, uid, uid).Find(&route).Error
 	if err != nil {
 		logger.Error.Printf("[repository.GetAllRoutesByID]error in getting all order by id %s\n", err.Error())
 		return route, err

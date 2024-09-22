@@ -37,6 +37,15 @@ type EditRoute struct {
 }
 
 type GetRoutes struct {
+	From       string `gorm:"not null" json:"from"`
+	Into       string `gorm:"not null" json:"into"`
+	Distance   int    `gorm:"not null" json:"distance"`
+	Pricekm    int    `json:"price"`
+	AllPrice   int    `json:"all_price"`
+	IsResponse bool   `gorm:"default false" json:"is_response"`
+}
+
+type Reports struct {
 	From       string    `gorm:"not null" json:"from"`
 	Into       string    `gorm:"not null" json:"into"`
 	Distance   int       `gorm:"not null" json:"distance"`

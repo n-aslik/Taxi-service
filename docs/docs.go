@@ -59,7 +59,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.GetRoutes"
+                                "$ref": "#/definitions/models.Reports"
                             }
                         }
                     },
@@ -128,7 +128,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Route"
+                                "$ref": "#/definitions/models.GetRoutes"
                             }
                         }
                     },
@@ -238,7 +238,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Route"
+                            "$ref": "#/definitions/models.GetRoutes"
                         }
                     },
                     "400": {
@@ -1222,13 +1222,7 @@ const docTemplate = `{
                 "all_price": {
                     "type": "integer"
                 },
-                "client_id": {
-                    "type": "integer"
-                },
                 "distance": {
-                    "type": "integer"
-                },
-                "driver_id": {
                     "type": "integer"
                 },
                 "from": {
@@ -1237,13 +1231,10 @@ const docTemplate = `{
                 "into": {
                     "type": "string"
                 },
-                "is_deleted": {
-                    "type": "boolean"
-                },
                 "is_response": {
                     "type": "boolean"
                 },
-                "pricekm": {
+                "price": {
                     "type": "integer"
                 }
             }
@@ -1266,6 +1257,38 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "rating": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Reports": {
+            "type": "object",
+            "properties": {
+                "all_price": {
+                    "type": "integer"
+                },
+                "client_id": {
+                    "type": "integer"
+                },
+                "distance": {
+                    "type": "integer"
+                },
+                "driver_id": {
+                    "type": "integer"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "into": {
+                    "type": "string"
+                },
+                "is_deleted": {
+                    "type": "boolean"
+                },
+                "is_response": {
+                    "type": "boolean"
+                },
+                "pricekm": {
                     "type": "integer"
                 }
             }

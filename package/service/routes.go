@@ -37,7 +37,7 @@ func CheckRouteasResponse(isresp bool, cid, id int) error {
 	return nil
 }
 
-func Printreport(isresp, isdeletedr, isblocked, isdeletedu bool, price int) (route []models.GetRoutes, err error) {
+func Printreport(isresp, isdeletedr, isblocked, isdeletedu bool, price int) (route []models.Reports, err error) {
 	route, err = repository.Report(isresp, isdeletedr, isblocked, isdeletedu, price)
 	if err != nil {
 

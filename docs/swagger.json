@@ -53,7 +53,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.GetRoutes"
+                                "$ref": "#/definitions/models.Reports"
                             }
                         }
                     },
@@ -122,7 +122,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Route"
+                                "$ref": "#/definitions/models.GetRoutes"
                             }
                         }
                     },
@@ -232,7 +232,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Route"
+                            "$ref": "#/definitions/models.GetRoutes"
                         }
                     },
                     "400": {
@@ -1216,13 +1216,7 @@
                 "all_price": {
                     "type": "integer"
                 },
-                "client_id": {
-                    "type": "integer"
-                },
                 "distance": {
-                    "type": "integer"
-                },
-                "driver_id": {
                     "type": "integer"
                 },
                 "from": {
@@ -1231,13 +1225,10 @@
                 "into": {
                     "type": "string"
                 },
-                "is_deleted": {
-                    "type": "boolean"
-                },
                 "is_response": {
                     "type": "boolean"
                 },
-                "pricekm": {
+                "price": {
                     "type": "integer"
                 }
             }
@@ -1260,6 +1251,38 @@
             "type": "object",
             "properties": {
                 "rating": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Reports": {
+            "type": "object",
+            "properties": {
+                "all_price": {
+                    "type": "integer"
+                },
+                "client_id": {
+                    "type": "integer"
+                },
+                "distance": {
+                    "type": "integer"
+                },
+                "driver_id": {
+                    "type": "integer"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "into": {
+                    "type": "string"
+                },
+                "is_deleted": {
+                    "type": "boolean"
+                },
+                "is_response": {
+                    "type": "boolean"
+                },
+                "pricekm": {
                     "type": "integer"
                 }
             }
