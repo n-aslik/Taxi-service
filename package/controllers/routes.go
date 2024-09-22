@@ -115,6 +115,7 @@ func Report(c *gin.Context) {
 // @Param q query string false "fill if you need search"
 // @Param is_response query bool true "fill if you need search"
 // @Param all_price query int true "fill if you need search"
+// @Param driver_id query uint true "fill if you need search"
 // @Success 200 {array} models.Route
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
@@ -144,7 +145,14 @@ func GetAllRoutes(c *gin.Context) {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	routes, err := service.PrintAllRoutes(false, isResp, price)
+	driverID := c.Query("driver_id")
+	uid, err := strconv.ParseUint(driverID, 10, 32)
+	if err != nil {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+
+	routes, err := service.PrintAllRoutes(false, isResp, price, uint(uid))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
@@ -160,6 +168,7 @@ func GetAllRoutes(c *gin.Context) {
 // @ID get-route-by-id
 // @Produce json
 // @Param id path integer true "id of the route"
+// @Param driver_id query uint true "fill if you need search"
 // @Success 200 {object} models.Route
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
@@ -177,7 +186,13 @@ func GetAllRoutesByID(c *gin.Context) {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	route, err := service.PrintAllRouteByID(false, uint(rid))
+	driverID := c.Query("driver_id")
+	uid, err := strconv.ParseUint(driverID, 10, 32)
+	if err != nil {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+	route, err := service.PrintAllRouteByID(false, uint(rid), uint(uid))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
@@ -228,8 +243,6 @@ func UpdateRouteByID(c *gin.Context) {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	route.Pricekm = 1
-	route.AllPrice = route.Distance * route.Pricekm
 	err = service.UpdateRoute(route, int(userID), id)
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)

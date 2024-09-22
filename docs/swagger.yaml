@@ -185,6 +185,11 @@ paths:
         name: all_price
         required: true
         type: integer
+      - description: fill if you need search
+        in: query
+        name: driver_id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -286,6 +291,11 @@ paths:
       - description: id of the route
         in: path
         name: id
+        required: true
+        type: integer
+      - description: fill if you need search
+        in: query
+        name: driver_id
         required: true
         type: integer
       produces:
