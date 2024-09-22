@@ -194,7 +194,7 @@ func GetAllRoutesByID(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path integer true "id of the route"
-// @Param input body models.Route true "route update info"
+// @Param input body models.EditRoute true "route update info"
 // @Success 200 {object} defaultResponse
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse

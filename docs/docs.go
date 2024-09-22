@@ -293,7 +293,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Route"
+                            "$ref": "#/definitions/models.EditRoute"
                         }
                     }
                 ],
@@ -1196,6 +1196,26 @@ const docTemplate = `{
                 }
             }
         },
+        "models.EditRoute": {
+            "type": "object",
+            "properties": {
+                "distance": {
+                    "type": "integer"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "into": {
+                    "type": "string"
+                },
+                "is_response": {
+                    "type": "boolean"
+                },
+                "price": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.GetRoutes": {
             "type": "object",
             "properties": {
@@ -1253,9 +1273,6 @@ const docTemplate = `{
         "models.Route": {
             "type": "object",
             "properties": {
-                "all_price": {
-                    "type": "integer"
-                },
                 "distance": {
                     "type": "integer"
                 },
@@ -1264,12 +1281,6 @@ const docTemplate = `{
                 },
                 "into": {
                     "type": "string"
-                },
-                "is_response": {
-                    "type": "boolean"
-                },
-                "price": {
-                    "type": "integer"
                 }
             }
         },
