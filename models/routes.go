@@ -7,8 +7,8 @@ type Route struct {
 	From       string    `gorm:"not null" json:"from"`
 	Into       string    `gorm:"not null" json:"into"`
 	Distance   int       `gorm:"not null" json:"distance"`
-	Pricekm    int       `json:"-"`
-	AllPrice   int       `json:"-"`
+	Pricekm    int       `json:"price"`
+	AllPrice   int       `json:"all_price"`
 	ClientID   int       `gorm:"references users(id)" json:"-"`
 	DriverID   int       `gorm:"references users(id)" json:"-"`
 	IsResponse bool      `gorm:"default false" json:"is_response"`

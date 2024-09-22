@@ -1253,6 +1253,9 @@ const docTemplate = `{
         "models.Route": {
             "type": "object",
             "properties": {
+                "all_price": {
+                    "type": "integer"
+                },
                 "distance": {
                     "type": "integer"
                 },
@@ -1264,6 +1267,9 @@ const docTemplate = `{
                 },
                 "is_response": {
                     "type": "boolean"
+                },
+                "price": {
+                    "type": "integer"
                 }
             }
         },

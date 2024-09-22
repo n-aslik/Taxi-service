@@ -1247,6 +1247,9 @@
         "models.Route": {
             "type": "object",
             "properties": {
+                "all_price": {
+                    "type": "integer"
+                },
                 "distance": {
                     "type": "integer"
                 },
@@ -1258,6 +1261,9 @@
                 },
                 "is_response": {
                     "type": "boolean"
+                },
+                "price": {
+                    "type": "integer"
                 }
             }
         },
