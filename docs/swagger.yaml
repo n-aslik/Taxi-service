@@ -201,7 +201,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Route'
+              $ref: '#/definitions/models.GetRoutes'
             type: array
         "400":
           description: Bad Request
@@ -303,7 +303,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Route'
+            $ref: '#/definitions/models.GetRoutes'
         "400":
           description: Bad Request
           schema:

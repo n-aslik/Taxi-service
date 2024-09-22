@@ -115,7 +115,7 @@ func Report(c *gin.Context) {
 // @Param q query string false "fill if you need search"
 // @Param is_response query bool true "fill if you need search"
 // @Param all_price query int true "fill if you need search"
-// @Success 200 {array} models.Route
+// @Success 200 {array} models.GetRoutes
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Failure default {object} ErrorResponse
@@ -160,7 +160,7 @@ func GetAllRoutes(c *gin.Context) {
 // @ID get-route-by-id
 // @Produce json
 // @Param id path integer true "id of the route"
-// @Success 200 {object} models.Route
+// @Success 200 {object} models.GetRoutes
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Failure default {object} ErrorResponse
