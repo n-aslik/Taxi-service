@@ -13,6 +13,8 @@ const (
 	authorizationHeader = "Authorization"
 	userIDCtx           = "userID"
 	userRoleCtx         = "role"
+	userPhoneCtx        = "phone"
+	userAddressCtx      = "address"
 )
 
 func checkUserAuthentication(c *gin.Context) {
@@ -48,9 +50,10 @@ func checkUserAuthentication(c *gin.Context) {
 		return
 	}
 	fmt.Println(claims)
-	
 
 	c.Set(userIDCtx, claims.UserID)
 	c.Set(userRoleCtx, claims.Role)
+	c.Set(userPhoneCtx, claims.Phone)
+	c.Set(userAddressCtx, claims.Address)
 	c.Next()
 }

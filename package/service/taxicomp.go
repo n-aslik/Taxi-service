@@ -14,7 +14,7 @@ func AddTaxicomp(txcm models.TaxiComp) error {
 	return nil
 }
 func UpdateTaxiComp(txcm models.TaxiComp, id int) error {
-	err := repository.EditTaxicomps(txcm.CompTitle, id)
+	err := repository.EditTaxicomps(txcm.CompTitle, txcm.DriverID, id)
 	if err != nil {
 		fmt.Println(err)
 	}

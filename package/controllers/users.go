@@ -211,6 +211,15 @@ func DeleteUsers(c *gin.Context) {
 // @Failure default {object} ErrorResponse
 // @Router /api/users [get]
 func PrintUsers(c *gin.Context) {
+	urole := c.GetString(userRoleCtx)
+	if urole == "" {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+	if urole != "admin" && urole != "user" {
+		HandleError(c, errs.ErrPermissionDenied)
+		return
+	}
 	role := c.Query("role")
 	logger.Info.Printf("Client with ip: [%s] requested list of users\n", c.ClientIP())
 	users, err := service.PrintAllUsers(false, false, role)
@@ -237,6 +246,15 @@ func PrintUsers(c *gin.Context) {
 // @Failure default {object} ErrorResponse
 // @Router /api/users/{id} [get]
 func PrintUsersByID(c *gin.Context) {
+	urole := c.GetString(userRoleCtx)
+	if urole == "" {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+	if urole != "admin" && urole != "user" {
+		HandleError(c, errs.ErrPermissionDenied)
+		return
+	}
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		logger.Error.Printf("[controllers.PrintUsersByID] invalid user_id path parameter: %s\n", c.Param("id"))

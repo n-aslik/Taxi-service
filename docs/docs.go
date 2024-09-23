@@ -15,6 +15,184 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/orders": {
+            "get": {
+                "security": [
+                    {
+                        "AKA": []
+                    }
+                ],
+                "description": "get list of all orders",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Get All Orders",
+                "operationId": "get-all-orders",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "fill if you need search",
+                        "name": "q",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "fill if you need search",
+                        "name": "is_response",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "fill if you need search",
+                        "name": "all_price",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.GetOrder"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "404"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "AKA": []
+                    }
+                ],
+                "description": "create new order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Create Order",
+                "operationId": "create-order",
+                "parameters": [
+                    {
+                        "description": "new order info",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.defaultResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "404"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AKA": []
+                    }
+                ],
+                "description": "get order by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Get Order By ID",
+                "operationId": "get-order-by-id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id of the route",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.GetOrder"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "404"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/report": {
             "get": {
                 "security": [
@@ -84,190 +262,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/routes": {
-            "get": {
-                "security": [
-                    {
-                        "AKA": []
-                    }
-                ],
-                "description": "get list of all routes",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "routes"
-                ],
-                "summary": "Get All Routes",
-                "operationId": "get-all-routes",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "fill if you need search",
-                        "name": "q",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "fill if you need search",
-                        "name": "is_response",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "fill if you need search",
-                        "name": "all_price",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.GetRoutes"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "404"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "AKA": []
-                    }
-                ],
-                "description": "create new route",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "routes"
-                ],
-                "summary": "Create Route",
-                "operationId": "create-route",
-                "parameters": [
-                    {
-                        "description": "new route info",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Route"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.defaultResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "404"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/api/routes/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "AKA": []
-                    }
-                ],
-                "description": "get route by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "routes"
-                ],
-                "summary": "Get Route By ID",
-                "operationId": "get-route-by-id",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "id of the route",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.GetRoutes"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "404"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    }
-                }
-            },
             "put": {
                 "security": [
                     {
                         "AKA": []
                     }
                 ],
-                "description": "update existed route",
+                "description": "update existed order",
                 "consumes": [
                     "application/json"
                 ],
@@ -275,25 +277,25 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "routes"
+                    "orders"
                 ],
-                "summary": "Update Route",
-                "operationId": "update-route",
+                "summary": "Update Order",
+                "operationId": "update-order",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "id of the route",
+                        "description": "id of the order",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "route update info",
+                        "description": "order update info",
                         "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.EditRoute"
+                            "$ref": "#/definitions/models.Order"
                         }
                     }
                 ],
@@ -332,9 +334,9 @@ const docTemplate = `{
                 ],
                 "description": "delete route by ID",
                 "tags": [
-                    "routes"
+                    "orders"
                 ],
-                "summary": "Delete Route By ID",
+                "summary": "Delete Order By ID",
                 "operationId": "delete-route-by-id",
                 "parameters": [
                     {
@@ -378,7 +380,7 @@ const docTemplate = `{
                         "AKA": []
                     }
                 ],
-                "description": "check as response existed route",
+                "description": "check as response existed order",
                 "consumes": [
                     "application/json"
                 ],
@@ -386,10 +388,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "routes"
+                    "orders"
                 ],
-                "summary": "Check route as response",
-                "operationId": "check-route-as-response",
+                "summary": "Check order as response",
+                "operationId": "check-order-as-response",
                 "parameters": [
                     {
                         "type": "integer",
@@ -399,7 +401,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": " check route as response info",
+                        "description": " check order as response info",
                         "name": "input",
                         "in": "body",
                         "required": true,
@@ -1196,34 +1198,17 @@ const docTemplate = `{
                 }
             }
         },
-        "models.EditRoute": {
-            "type": "object",
-            "properties": {
-                "distance": {
-                    "type": "integer"
-                },
-                "from": {
-                    "type": "string"
-                },
-                "into": {
-                    "type": "string"
-                },
-                "is_response": {
-                    "type": "boolean"
-                },
-                "price": {
-                    "type": "integer"
-                }
-            }
-        },
-        "models.GetRoutes": {
+        "models.GetOrder": {
             "type": "object",
             "properties": {
                 "all_price": {
                     "type": "integer"
                 },
-                "distance": {
-                    "type": "integer"
+                "client_phone": {
+                    "type": "string"
+                },
+                "driver_phone": {
+                    "type": "string"
                 },
                 "from": {
                     "type": "string"
@@ -1234,7 +1219,7 @@ const docTemplate = `{
                 "is_response": {
                     "type": "boolean"
                 },
-                "price": {
+                "start_price": {
                     "type": "integer"
                 }
             }
@@ -1250,6 +1235,17 @@ const docTemplate = `{
                 },
                 "driver_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.Order": {
+            "type": "object",
+            "properties": {
+                "from": {
+                    "type": "string"
+                },
+                "into": {
+                    "type": "string"
                 }
             }
         },
@@ -1288,24 +1284,7 @@ const docTemplate = `{
                 "is_response": {
                     "type": "boolean"
                 },
-                "pricekm": {
-                    "type": "integer"
-                }
-            }
-        },
-        "models.Route": {
-            "type": "object",
-            "properties": {
-                "distance": {
-                    "type": "integer"
-                },
-                "from": {
-                    "type": "string"
-                },
-                "into": {
-                    "type": "string"
-                },
-                "price": {
+                "start_price": {
                     "type": "integer"
                 }
             }
@@ -1324,10 +1303,16 @@ const docTemplate = `{
         "models.SwagSignUp": {
             "type": "object",
             "properties": {
+                "address": {
+                    "type": "string"
+                },
                 "full_name": {
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                },
+                "phone_number": {
                     "type": "string"
                 },
                 "role": {
@@ -1352,6 +1337,9 @@ const docTemplate = `{
         "models.User": {
             "type": "object",
             "properties": {
+                "address": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -1368,6 +1356,9 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "password": {
+                    "type": "string"
+                },
+                "phone_number": {
                     "type": "string"
                 },
                 "rating": {

@@ -13,8 +13,8 @@ func CreateUser(user models.User) error {
 	}
 	return nil
 }
-func EditUser(fullname, username string, id int) error {
-	err := db.GetconnectDB().Omit("password").Where("id=?", id).Updates(models.User{FullName: fullname, Username: username}).Error
+func EditUser(fullname, username, phonenumber, address string, id int) error {
+	err := db.GetconnectDB().Omit("password").Where("id=?", id).Updates(models.User{FullName: fullname, Username: username, PhoneNumber: phonenumber, Address: address}).Error
 	if err != nil {
 		logger.Error.Printf("[repository.edituser]error in updated user %s\n", err.Error())
 	}

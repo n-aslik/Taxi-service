@@ -20,32 +20,21 @@ definitions:
       is_response:
         type: boolean
     type: object
-  models.EditRoute:
-    properties:
-      distance:
-        type: integer
-      from:
-        type: string
-      into:
-        type: string
-      is_response:
-        type: boolean
-      price:
-        type: integer
-    type: object
-  models.GetRoutes:
+  models.GetOrder:
     properties:
       all_price:
         type: integer
-      distance:
-        type: integer
+      client_phone:
+        type: string
+      driver_phone:
+        type: string
       from:
         type: string
       into:
         type: string
       is_response:
         type: boolean
-      price:
+      start_price:
         type: integer
     type: object
   models.GetTaxiComp:
@@ -56,6 +45,13 @@ definitions:
         $ref: '#/definitions/models.User'
       driver_id:
         type: integer
+    type: object
+  models.Order:
+    properties:
+      from:
+        type: string
+      into:
+        type: string
     type: object
   models.Rating:
     properties:
@@ -80,18 +76,7 @@ definitions:
         type: boolean
       is_response:
         type: boolean
-      pricekm:
-        type: integer
-    type: object
-  models.Route:
-    properties:
-      distance:
-        type: integer
-      from:
-        type: string
-      into:
-        type: string
-      price:
+      start_price:
         type: integer
     type: object
   models.SwagSignIn:
@@ -103,9 +88,13 @@ definitions:
     type: object
   models.SwagSignUp:
     properties:
+      address:
+        type: string
       full_name:
         type: string
       password:
+        type: string
+      phone_number:
         type: string
       role:
         type: string
@@ -121,6 +110,8 @@ definitions:
     type: object
   models.User:
     properties:
+      address:
+        type: string
       created_at:
         type: string
       full_name:
@@ -132,6 +123,8 @@ definitions:
       is_deleted:
         type: boolean
       password:
+        type: string
+      phone_number:
         type: string
       rating:
         type: integer
@@ -149,6 +142,121 @@ info:
   title: Fellow traveler API
   version: "1.0"
 paths:
+  /api/orders:
+    get:
+      description: get list of all orders
+      operationId: get-all-orders
+      parameters:
+      - description: fill if you need search
+        in: query
+        name: q
+        type: string
+      - description: fill if you need search
+        in: query
+        name: is_response
+        required: true
+        type: boolean
+      - description: fill if you need search
+        in: query
+        name: all_price
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.GetOrder'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: "404"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - AKA: []
+      summary: Get All Orders
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: create new order
+      operationId: create-order
+      parameters:
+      - description: new order info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.Order'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.defaultResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: "404"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - AKA: []
+      summary: Create Order
+      tags:
+      - orders
+  /api/orders/{id}:
+    get:
+      description: get order by ID
+      operationId: get-order-by-id
+      parameters:
+      - description: id of the route
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetOrder'
+        "400":
+          description: Bad Request
+          schema:
+            type: "404"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - AKA: []
+      summary: Get Order By ID
+      tags:
+      - orders
   /api/report:
     get:
       description: get list of report
@@ -194,87 +302,6 @@ paths:
       summary: Get Report
       tags:
       - report
-  /api/routes:
-    get:
-      description: get list of all routes
-      operationId: get-all-routes
-      parameters:
-      - description: fill if you need search
-        in: query
-        name: q
-        type: string
-      - description: fill if you need search
-        in: query
-        name: is_response
-        required: true
-        type: boolean
-      - description: fill if you need search
-        in: query
-        name: all_price
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.GetRoutes'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            type: "404"
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/controllers.ErrorResponse'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/controllers.ErrorResponse'
-      security:
-      - AKA: []
-      summary: Get All Routes
-      tags:
-      - routes
-    post:
-      consumes:
-      - application/json
-      description: create new route
-      operationId: create-route
-      parameters:
-      - description: new route info
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/models.Route'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/controllers.defaultResponse'
-        "400":
-          description: Bad Request
-          schema:
-            type: "404"
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/controllers.ErrorResponse'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/controllers.ErrorResponse'
-      security:
-      - AKA: []
-      summary: Create Route
-      tags:
-      - routes
   /api/routes/{id}:
     delete:
       description: delete route by ID
@@ -304,54 +331,21 @@ paths:
             $ref: '#/definitions/controllers.ErrorResponse'
       security:
       - AKA: []
-      summary: Delete Route By ID
+      summary: Delete Order By ID
       tags:
-      - routes
-    get:
-      description: get route by ID
-      operationId: get-route-by-id
-      parameters:
-      - description: id of the route
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.GetRoutes'
-        "400":
-          description: Bad Request
-          schema:
-            type: "404"
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/controllers.ErrorResponse'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/controllers.ErrorResponse'
-      security:
-      - AKA: []
-      summary: Get Route By ID
-      tags:
-      - routes
+      - orders
     patch:
       consumes:
       - application/json
-      description: check as response existed route
-      operationId: check-route-as-response
+      description: check as response existed order
+      operationId: check-order-as-response
       parameters:
       - description: id of the route
         in: path
         name: id
         required: true
         type: integer
-      - description: ' check route as response info'
+      - description: ' check order as response info'
         in: body
         name: input
         required: true
@@ -378,26 +372,26 @@ paths:
             $ref: '#/definitions/controllers.ErrorResponse'
       security:
       - AKA: []
-      summary: Check route as response
+      summary: Check order as response
       tags:
-      - routes
+      - orders
     put:
       consumes:
       - application/json
-      description: update existed route
-      operationId: update-route
+      description: update existed order
+      operationId: update-order
       parameters:
-      - description: id of the route
+      - description: id of the order
         in: path
         name: id
         required: true
         type: integer
-      - description: route update info
+      - description: order update info
         in: body
         name: input
         required: true
         schema:
-          $ref: '#/definitions/models.EditRoute'
+          $ref: '#/definitions/models.Order'
       produces:
       - application/json
       responses:
@@ -419,9 +413,9 @@ paths:
             $ref: '#/definitions/controllers.ErrorResponse'
       security:
       - AKA: []
-      summary: Update Route
+      summary: Update Order
       tags:
-      - routes
+      - orders
   /api/taxicomps:
     get:
       description: get list of all taxi companies

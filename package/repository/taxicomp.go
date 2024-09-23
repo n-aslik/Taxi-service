@@ -14,8 +14,8 @@ func InsertTaxicomps(txcm models.TaxiComp) error {
 	}
 	return nil
 }
-func EditTaxicomps(comptitle string, id int) error {
-	err := db.GetconnectDB().Save(&models.TaxiComp{ID: id, CompTitle: comptitle}).Error
+func EditTaxicomps(comptitle string, did, id int) error {
+	err := db.GetconnectDB().Save(&models.TaxiComp{ID: id, CompTitle: comptitle, DriverID: did}).Error
 	if err != nil {
 		logger.Error.Printf("[repository.edittaxicomps]error in update taxi company %s\n", err.Error())
 	}

@@ -12,7 +12,7 @@ func SignIn(username, password string) (accessToken string, err error) {
 		return "", err
 	}
 
-	accessToken, err = GenerateToken(uint(user.ID), user.Username, user.Role)
+	accessToken, err = GenerateToken(uint(user.ID), user.Username, user.Role, user.PhoneNumber, user.Address)
 	if err != nil {
 		return "", err
 	}

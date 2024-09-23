@@ -11,41 +11,46 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateRoute
-// @Summary Create Route
+// CreateOrder
+// @Summary Create Order
 // @Security AKA
-// @Tags routes
-// @Description create new route
-// @ID create-route
+// @Tags orders
+// @Description create new order
+// @ID create-order
 // @Accept json
 // @Produce json
-// @Param input body models.Route true "new route info"
+// @Param input body models.Order true "new order info"
 // @Success 200 {object} defaultResponse
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Failure default {object} ErrorResponse
-// @Router /api/routes [post]
-func CreateRoute(c *gin.Context) {
+// @Router /api/orders [post]
+func CreateOrder(c *gin.Context) {
 	userID := c.GetUint(userIDCtx)
 	urole := c.GetString(userRoleCtx)
+	uphone := c.GetString(userPhoneCtx)
+	uaddr := c.GetString(userAddressCtx)
 	if urole == "" {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	if urole != "driver" {
+	if urole != "user" {
 		HandleError(c, errs.ErrPermissionDenied)
 		return
 	}
-	var newroute models.Route
+	var newroute models.Order
 	err := c.BindJSON(&newroute)
 	if err != nil {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	newroute.DriverID = int(userID)
-	logger.Info.Printf("[controllers.AddRoute] add route is succesful")
 
-	err = service.AddRoute(newroute)
+	newroute.ClientID = int(userID)
+	newroute.ClientPhone = uphone
+	newroute.ClientAddress = uaddr
+	logger.Info.Printf("[controllers.AddRoute] add order is succesful")
+
+	err = service.AddOrder(newroute)
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
@@ -105,22 +110,22 @@ func Report(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"report": report})
 }
 
-// GetAllRoutes
-// @Summary Get All Routes
+// GetAllOrders
+// @Summary Get All Orders
 // @Security AKA
-// @Tags routes
-// @Description get list of all routes
-// @ID get-all-routes
+// @Tags orders
+// @Description get list of all orders
+// @ID get-all-orders
 // @Produce json
 // @Param q query string false "fill if you need search"
 // @Param is_response query bool true "fill if you need search"
 // @Param all_price query int true "fill if you need search"
-// @Success 200 {array} models.GetRoutes
+// @Success 200 {array} models.GetOrder
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Failure default {object} ErrorResponse
-// @Router /api/routes [get]
-func GetAllRoutes(c *gin.Context) {
+// @Router /api/orders [get]
+func GetAllOrders(c *gin.Context) {
 	userID := c.GetUint(userIDCtx)
 	if userID == 0 {
 		HandleError(c, errs.ErrRoutesNotFound)
@@ -145,63 +150,68 @@ func GetAllRoutes(c *gin.Context) {
 		return
 	}
 
-	routes, err := service.PrintAllRoutes(false, isResp, price, uint(userID))
+	routes, err := service.PrintAllOrders(false, isResp, price, uint(userID))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"routes": routes})
+	c.JSON(http.StatusOK, gin.H{"orders": routes})
 }
 
-// GetRoutesByID
-// @Summary Get Route By ID
+// GetOrdersByID
+// @Summary Get Order By ID
 // @Security AKA
-// @Tags routes
-// @Description get route by ID
-// @ID get-route-by-id
+// @Tags orders
+// @Description get order by ID
+// @ID get-order-by-id
 // @Produce json
 // @Param id path integer true "id of the route"
-// @Success 200 {object} models.GetRoutes
+// @Success 200 {object} models.GetOrder
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Failure default {object} ErrorResponse
-// @Router /api/routes/{id} [get]
-func GetAllRoutesByID(c *gin.Context) {
+// @Router /api/orders/{id} [get]
+func GetAllOrdersByID(c *gin.Context) {
 	userID := c.GetUint(userIDCtx)
+	urole := c.GetString(userRoleCtx)
 	if userID == 0 {
 		HandleError(c, errs.ErrRecordNotFound)
 		return
 	}
-	rid, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		logger.Error.Printf("[controllers.GetAllRoutesByID] invalid route_id path parameter: %s\n", c.Param("id"))
+	if urole == "" {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	route, err := service.PrintAllRouteByID(false, uint(rid), uint(userID))
+	rid, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		logger.Error.Printf("[controllers.GetAllOrdersByID] invalid order_id path parameter: %s\n", c.Param("id"))
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+	route, err := service.PrintAllOrderByID(false, uint(rid), uint(userID))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"route": route})
+	c.JSON(http.StatusOK, gin.H{"order": route})
 }
 
-// UpdateRouteByID
-// @Summary Update Route
+// UpdateOrderByID
+// @Summary Update Order
 // @Security AKA
-// @Tags routes
-// @Description update existed route
-// @ID update-route
+// @Tags orders
+// @Description update existed order
+// @ID update-order
 // @Accept json
 // @Produce json
-// @Param id path integer true "id of the route"
-// @Param input body models.EditRoute true "route update info"
+// @Param id path integer true "id of the order"
+// @Param input body models.Order true "order update info"
 // @Success 200 {object} defaultResponse
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Failure default {object} ErrorResponse
 // @Router /api/routes/{id} [put]
-func UpdateRouteByID(c *gin.Context) {
+func UpdateOrderByID(c *gin.Context) {
 	userID := c.GetUint(userIDCtx)
 	if userID == 0 {
 		HandleError(c, errs.ErrRecordNotFound)
@@ -212,24 +222,24 @@ func UpdateRouteByID(c *gin.Context) {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	if urole != "driver" {
+	if urole != "admin" {
 		HandleError(c, errs.ErrPermissionDenied)
 		return
 	}
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		logger.Error.Printf("[controllers.UpdateRouteByID] invalid route_id path parameter: %s\n", c.Param("id"))
+		logger.Error.Printf("[controllers.UpdateOrderByID] invalid order_id path parameter: %s\n", c.Param("id"))
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
 
-	var route models.Route
+	var route models.Order
 	err = c.BindJSON(&route)
 	if err != nil {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	err = service.UpdateRoute(route, int(userID), id)
+	err = service.UpdateOrder(route, id)
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
@@ -239,31 +249,35 @@ func UpdateRouteByID(c *gin.Context) {
 
 }
 
-// ChecksRouteasResponse
-// @Summary Check route as response
+// ChecksOrderasResponse
+// @Summary Check order as response
 // @Security AKA
-// @Tags routes
-// @Description  check as response existed route
-// @ID check-route-as-response
+// @Tags orders
+// @Description  check as response existed order
+// @ID check-order-as-response
 // @Accept json
 // @Produce json
 // @Param id path integer true "id of the route"
-// @Param input body models.Checkresponse true " check route as response info"
+// @Param input body models.Checkresponse true " check order as response info"
 // @Success 200 {object} defaultResponse
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Failure default {object} ErrorResponse
 // @Router /api/routes/{id} [patch]
-func ChecksRouteasResponse(c *gin.Context) {
+func ChecksOrderasResponse(c *gin.Context) {
 	urole := c.GetString(userRoleCtx)
 	if urole == "" {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
+	if urole != "user" && urole != "driver" {
+		HandleError(c, errs.ErrPermissionDenied)
+		return
+	}
 
-	id, err := strconv.Atoi(c.Param("id"))
+	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
-		logger.Error.Printf("[controllers.ChecksRouteasResponse] invalid route_id path parameter: %s\n", c.Param("id"))
+		logger.Error.Printf("[controllers.ChecksOrderasResponse] invalid order_id path parameter: %s\n", c.Param("id"))
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
@@ -272,7 +286,7 @@ func ChecksRouteasResponse(c *gin.Context) {
 		HandleError(c, errs.ErrRecordNotFound)
 		return
 	}
-	err = service.CheckRouteasResponse(true, int(userID), id)
+	err = service.CheckOrderasResponse(true, uint(userID), uint(id))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
@@ -281,10 +295,10 @@ func ChecksRouteasResponse(c *gin.Context) {
 
 }
 
-// DeleteRouteByID
-// @Summary Delete Route By ID
+// DeleteOrderByID
+// @Summary Delete Order By ID
 // @Security AKA
-// @Tags routes
+// @Tags orders
 // @Description delete route by ID
 // @ID delete-route-by-id
 // @Param id path integer true "id of the route"
@@ -293,23 +307,23 @@ func ChecksRouteasResponse(c *gin.Context) {
 // @Failure 500 {object} ErrorResponse
 // @Failure default {object} ErrorResponse
 // @Router /api/routes/{id} [delete]
-func DeleteRouteByID(c *gin.Context) {
+func DeleteOrderByID(c *gin.Context) {
 	urole := c.GetString(userRoleCtx)
 	if urole == "" {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	if urole != "driver" && urole != "admin" {
+	if urole != "admin" {
 		HandleError(c, errs.ErrPermissionDenied)
 		return
 	}
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		logger.Error.Printf("[controllers.DeleteRouteByID] invalid route_id path parameter: %s\n", c.Param("id"))
+		logger.Error.Printf("[controllers.DeleteOrderByID] invalid order_id path parameter: %s\n", c.Param("id"))
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	err = service.DeleteRoute(true, id)
+	err = service.DeleteOrder(true, id)
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
