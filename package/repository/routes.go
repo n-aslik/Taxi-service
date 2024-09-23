@@ -38,7 +38,7 @@ func Report(isresp, isdeletedr, isblocked, isdeletedu bool, price int) (route []
 	return route, nil
 }
 func GetAllRoutes(isdeleted, isresp bool, price int, uid uint) (route []models.GetRoutes, err error) {
-	err = db.GetconnectDB().Raw("SELECT r.from, r.into, r.is_response,(DISTINCT r.distance) as distance ,(DISTINCT r.pricekm) as pricekm, (r.all_price) as all_price FROM routes r WHERE r.is_deleted=? AND r.is_response=? AND r.all_price<=? AND (r.driver_id=? OR r.client_id=?)", isdeleted, isresp, price, uid, uid).Scan(&route).Error
+	err = db.GetconnectDB().Raw("SELECT DISTINCT r.from, r.into,  r.distance, r.pricekm, r.all_price, r.is_response, FROM routes r WHERE r.is_deleted=? AND r.is_response=? AND r.all_price<=? AND (r.driver_id=? OR r.client_id=?)", isdeleted, isresp, price, uid, uid).Scan(&route).Error
 	if err != nil {
 		logger.Error.Printf("[repository.GetAllRoutesByID]error in getting all order %s\n", err.Error())
 		return route, err
@@ -46,7 +46,7 @@ func GetAllRoutes(isdeleted, isresp bool, price int, uid uint) (route []models.G
 	return route, nil
 }
 func GetAllRoutesByID(isdeleted bool, id, uid uint) (route []models.GetRoutes, err error) {
-	err = db.GetconnectDB().Raw("SELECT r.from, r.into, r.is_response,(DISTINCT r.distance) as distance ,(DISTINCT r.pricekm) as pricekm, (r.all_price) as all_price FROM routes r WHERE r.is_deleted=?  AND r.id=? AND  (r.driver_id=? OR r.client_id=?)", isdeleted, id, uid, uid).Scan(&route).Error
+	err = db.GetconnectDB().Raw("SELECT r.from, r.into, r.distance, r.pricekm, r.all_price, r.is_response, FROM routes r WHERE r.is_deleted=? AND r.is_response=?  AND r.id=? AND  (r.driver_id=? OR r.client_id=?)", isdeleted, id, uid, uid).Scan(&route).Error
 	if err != nil {
 		logger.Error.Printf("[repository.GetAllRoutesByID]error in getting all order by id %s\n", err.Error())
 		return route, err
