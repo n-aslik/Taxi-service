@@ -13,8 +13,8 @@ func InsertOrder(order models.Order) error {
 	}
 	return nil
 }
-func EditOrder(cphone, address, from, into string, distance, startprice, allprice int, dphone string, cid, did, id int) error {
-	err := db.GetconnectDB().Omit("client_phone", "client_address", "from", "into", "client_id").Save(&models.Order{ID: id, ClientPhone: cphone, ClientAddress: address, From: from, Into: into, Distance: distance, StartPrice: startprice, AllPrice: allprice, DriverPhone: dphone, ClientID: cid, DriverID: did}).Error
+func EditOrder(distance, startprice, allprice int, dphone string, did, id int) error {
+	err := db.GetconnectDB().Where("id=?", id).Updates(models.Order{Distance: distance, StartPrice: startprice, AllPrice: allprice, DriverPhone: dphone, DriverID: did}).Error
 	if err != nil {
 		logger.Error.Printf("[repository.EditOrder]error in update order %s\n", err.Error())
 	}
@@ -55,7 +55,7 @@ func GetAllOrdersByID(isdeleted bool, id uint) (order []models.GetOrder, err err
 }
 
 func CheckOrdersAsResponse(isresp bool, cid, did, id int) error {
-	err := db.GetconnectDB().Model(&models.Order{}).Where("id=? AND (client_id=? OR driver_id=?)", id, cid, did).Select("is_response").Updates(models.Order{IsResponse: isresp}).Error
+	err := db.GetconnectDB().Where("id=? AND (client_id=? OR driver_id=?)", id, cid, did).Select("is_response").Updates(models.Order{IsResponse: isresp}).Error
 	if err != nil {
 		logger.Error.Printf("[repository.CheckRoutesAsResponse]error in checked order %s\n", err.Error())
 
