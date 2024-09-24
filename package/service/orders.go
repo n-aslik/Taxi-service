@@ -40,8 +40,8 @@ func DeleteOrder(isdeleted bool, id int) error {
 	}
 	return nil
 }
-func CheckOrderasResponse(isresp bool, id int) error {
-	err := repository.CheckOrdersAsResponse(isresp, id)
+func CheckOrderasResponse(order models.Order, id int) error {
+	err := repository.CheckOrdersAsResponse(order.IsResponse, id)
 	if err != nil {
 		fmt.Println(err)
 	}

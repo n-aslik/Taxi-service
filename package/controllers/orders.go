@@ -332,7 +332,13 @@ func ChecksOrderasResponse(c *gin.Context) {
 		HandleError(c, errs.ErrRecordNotFound)
 		return
 	}
-	err = service.CheckOrderasResponse(true, int(id))
+	var order models.Order
+	err = c.BindJSON(&order)
+	if err != nil {
+		HandleError(c, err)
+		return
+	}
+	err = service.CheckOrderasResponse(order, int(id))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
