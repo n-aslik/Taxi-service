@@ -1289,6 +1289,9 @@ const docTemplate = `{
                 "client_phone": {
                     "type": "string"
                 },
+                "distance": {
+                    "type": "integer"
+                },
                 "driver_phone": {
                     "type": "string"
                 },
@@ -1317,23 +1320,38 @@ const docTemplate = `{
                 },
                 "driver_id": {
                     "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "isDeleted": {
-                    "type": "boolean"
                 }
             }
         },
         "models.Order": {
             "type": "object",
             "properties": {
+                "all_price": {
+                    "type": "integer"
+                },
+                "client_address": {
+                    "type": "string"
+                },
+                "client_phone": {
+                    "type": "string"
+                },
+                "distance": {
+                    "type": "integer"
+                },
+                "driver_phone": {
+                    "type": "string"
+                },
                 "from": {
                     "type": "string"
                 },
                 "into": {
                     "type": "string"
+                },
+                "is_response": {
+                    "type": "boolean"
+                },
+                "start_price": {
+                    "type": "integer"
                 }
             }
         },
@@ -1419,12 +1437,6 @@ const docTemplate = `{
                 },
                 "driver_id": {
                     "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "isDeleted": {
-                    "type": "boolean"
                 },
                 "user": {
                     "$ref": "#/definitions/models.User"

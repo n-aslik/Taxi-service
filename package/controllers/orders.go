@@ -19,7 +19,7 @@ import (
 // @ID create-order
 // @Accept json
 // @Produce json
-// @Param input body models.Order true "new order info"
+// @Param input body models.SendRoute true "new order info"
 // @Success 200 {object} defaultResponse
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
@@ -249,16 +249,16 @@ func UpdateOrderByID(c *gin.Context) {
 
 }
 
-// AddOrderDistanceByID
-// @Summary add order distance
+// AddOrderDistanceandTotalByID
+// @Summary add order distance and total
 // @Security AKA
 // @Tags distances
-// @Description  add distance  existed order
-// @ID add-order-distance
+// @Description  add distance  and total existed order
+// @ID add-order-distance-and-total
 // @Accept json
 // @Produce json
 // @Param id path integer true "id of the order"
-// @Param input body models.AddDistances true "add order distance"
+// @Param input body models.AddDistances true "add order distance and total"
 // @Success 200 {object} defaultResponse
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
@@ -286,7 +286,7 @@ func AddOrderDistanceandTotalByID(c *gin.Context) {
 		HandleError(c, err)
 		return
 	}
-	err = service.AddOrdersDistance(order, id)
+	err = service.AddOrdersDistanceandTotal(order, id)
 	if err != nil {
 		logger.Error.Printf("[controllers.AddOrderDistanceByID] invalid order_id path parameter: %s\n", c.Param("id"))
 		HandleError(c, err)

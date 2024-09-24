@@ -21,9 +21,9 @@ func EditOrders(dphone string, did, id int) error {
 	}
 	return nil
 }
-func AddDistance(distance, id int) error {
+func AddDistanceandTotal(distance, startprice, allprice, id int) error {
 	var order models.Order
-	err := db.GetconnectDB().Model(&order).Select("distance").Where("id=?", id).Update("distance", distance).Error
+	err := db.GetconnectDB().Model(&order).Select("distance", "start_price", "all_price").Where("id=?", id).Updates(models.Order{Distance: distance, StartPrice: startprice, AllPrice: allprice}).Error
 	if err != nil {
 		logger.Error.Printf("[repository.AddDistance]error in add order distance %s\n", err.Error())
 		return nil

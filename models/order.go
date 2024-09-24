@@ -34,7 +34,9 @@ type EditOrder struct {
 	DriverID    int    `gorm:"references users(id)" json:"driver_id"`
 }
 type AddDistances struct {
-	Distance int `gorm:"not null" json:"distance"`
+	Distance   int `gorm:"not null" json:"distance"`
+	StartPrice int `json:"start_price"`
+	AllPrice   int `json:"all_price"`
 }
 
 type GetOrder struct {
