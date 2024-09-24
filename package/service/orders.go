@@ -7,7 +7,6 @@ import (
 )
 
 func AddOrder(order models.Order) error {
-	order.StartPrice = 10
 	err := repository.InsertOrder(order)
 	if err != nil {
 		fmt.Println(err)
@@ -24,7 +23,11 @@ func UpdateOrder(order models.Order, id int) error {
 }
 
 func AddOrdersDistanceandTotal(order models.Order, id int) error {
-	order.AllPrice = order.Distance * order.StartPrice
+	order.StartPrice = 10
+	for i := order.StartPrice; i <= order.StartPrice; i++ {
+		order.AllPrice = i
+		break
+	}
 	err := repository.AddDistanceandTotal(order.Distance, order.StartPrice, order.AllPrice, id)
 	if err != nil {
 		fmt.Println(err)
