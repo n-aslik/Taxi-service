@@ -22,7 +22,7 @@ const docTemplate = `{
                         "AKA": []
                     }
                 ],
-                "description": "add distance  existed order",
+                "description": "add distance  and total existed order",
                 "consumes": [
                     "application/json"
                 ],
@@ -32,8 +32,8 @@ const docTemplate = `{
                 "tags": [
                     "distances"
                 ],
-                "summary": "add order distance",
-                "operationId": "add-order-distance",
+                "summary": "add order distance and total",
+                "operationId": "add-order-distance-and-total",
                 "parameters": [
                     {
                         "type": "integer",
@@ -43,7 +43,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "add order distance",
+                        "description": "add order distance and total",
                         "name": "input",
                         "in": "body",
                         "required": true,
@@ -173,7 +173,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Order"
+                            "$ref": "#/definitions/models.SendRoute"
                         }
                     }
                 ],
@@ -1256,7 +1256,13 @@ const docTemplate = `{
         "models.AddDistances": {
             "type": "object",
             "properties": {
+                "all_price": {
+                    "type": "integer"
+                },
                 "distance": {
+                    "type": "integer"
+                },
+                "start_price": {
                     "type": "integer"
                 }
             }
@@ -1323,38 +1329,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Order": {
-            "type": "object",
-            "properties": {
-                "all_price": {
-                    "type": "integer"
-                },
-                "client_address": {
-                    "type": "string"
-                },
-                "client_phone": {
-                    "type": "string"
-                },
-                "distance": {
-                    "type": "integer"
-                },
-                "driver_phone": {
-                    "type": "string"
-                },
-                "from": {
-                    "type": "string"
-                },
-                "into": {
-                    "type": "string"
-                },
-                "is_response": {
-                    "type": "boolean"
-                },
-                "start_price": {
-                    "type": "integer"
-                }
-            }
-        },
         "models.Rating": {
             "type": "object",
             "properties": {
@@ -1392,6 +1366,17 @@ const docTemplate = `{
                 },
                 "start_price": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.SendRoute": {
+            "type": "object",
+            "properties": {
+                "from": {
+                    "type": "string"
+                },
+                "into": {
+                    "type": "string"
                 }
             }
         },

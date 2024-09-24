@@ -17,7 +17,11 @@ definitions:
     type: object
   models.AddDistances:
     properties:
+      all_price:
+        type: integer
       distance:
+        type: integer
+      start_price:
         type: integer
     type: object
   models.Checkresponse:
@@ -60,27 +64,6 @@ definitions:
       driver_id:
         type: integer
     type: object
-  models.Order:
-    properties:
-      all_price:
-        type: integer
-      client_address:
-        type: string
-      client_phone:
-        type: string
-      distance:
-        type: integer
-      driver_phone:
-        type: string
-      from:
-        type: string
-      into:
-        type: string
-      is_response:
-        type: boolean
-      start_price:
-        type: integer
-    type: object
   models.Rating:
     properties:
       rating:
@@ -106,6 +89,13 @@ definitions:
         type: boolean
       start_price:
         type: integer
+    type: object
+  models.SendRoute:
+    properties:
+      from:
+        type: string
+      into:
+        type: string
     type: object
   models.SwagSignIn:
     properties:
@@ -187,15 +177,15 @@ paths:
     patch:
       consumes:
       - application/json
-      description: add distance  existed order
-      operationId: add-order-distance
+      description: add distance  and total existed order
+      operationId: add-order-distance-and-total
       parameters:
       - description: id of the order
         in: path
         name: id
         required: true
         type: integer
-      - description: add order distance
+      - description: add order distance and total
         in: body
         name: input
         required: true
@@ -222,7 +212,7 @@ paths:
             $ref: '#/definitions/controllers.ErrorResponse'
       security:
       - AKA: []
-      summary: add order distance
+      summary: add order distance and total
       tags:
       - distances
   /api/orders:
@@ -281,7 +271,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/models.Order'
+          $ref: '#/definitions/models.SendRoute'
       produces:
       - application/json
       responses:
