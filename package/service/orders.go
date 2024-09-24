@@ -7,6 +7,8 @@ import (
 )
 
 func AddOrder(order models.Order) error {
+	order.StartPrice = 10
+	order.AllPrice = order.Distance * order.StartPrice
 	err := repository.InsertOrder(order)
 	if err != nil {
 		fmt.Println(err)
@@ -14,12 +16,18 @@ func AddOrder(order models.Order) error {
 	return nil
 }
 func UpdateOrder(order models.Order, id int) error {
-	order.StartPrice = 10
-	order.AllPrice += order.Distance * order.StartPrice
-	err := repository.EditOrder(order.Distance, order.StartPrice, order.AllPrice, order.DriverPhone, order.DriverID, id)
+	err := repository.EditOrders(order.DriverPhone, order.DriverID, id)
 	if err != nil {
 		fmt.Println(err)
 
+	}
+	return nil
+}
+
+func AddOrdersDistance(order models.Order, id int) error {
+	err := repository.AddDistance(order.Distance, id)
+	if err != nil {
+		fmt.Println(err)
 	}
 	return nil
 }
@@ -30,8 +38,8 @@ func DeleteOrder(isdeleted bool, id int) error {
 	}
 	return nil
 }
-func CheckOrderasResponse(order models.Order, id, cid, did int) error {
-	err := repository.CheckOrdersAsResponse(order.IsResponse, id, cid, did)
+func CheckOrderasResponse(isresp bool, id int) error {
+	err := repository.CheckOrdersAsResponse(isresp, id)
 	if err != nil {
 		fmt.Println(err)
 	}

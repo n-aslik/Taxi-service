@@ -249,6 +249,52 @@ func UpdateOrderByID(c *gin.Context) {
 
 }
 
+// AddOrderDistanceByID
+// @Summary add order distance
+// @Security AKA
+// @Tags distances
+// @Description  add distance  existed order
+// @ID add-order-distance
+// @Accept json
+// @Produce json
+// @Param id path integer true "id of the order"
+// @Param input body models.AddDistances true "add order distance"
+// @Success 200 {object} defaultResponse
+// @Failure 400 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Failure default {object} ErrorResponse
+// @Router /api/distances/{id} [patch]
+func AddOrderDistanceandTotalByID(c *gin.Context) {
+	urole := c.GetString(userRoleCtx)
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		HandleError(c, err)
+		return
+	}
+	if urole == "" {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+	if urole != "admin" {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+
+	var order models.Order
+	err = c.BindJSON(&order)
+	if err != nil {
+		HandleError(c, err)
+		return
+	}
+	err = service.AddOrdersDistance(order, id)
+	if err != nil {
+		logger.Error.Printf("[controllers.AddOrderDistanceByID] invalid order_id path parameter: %s\n", c.Param("id"))
+		HandleError(c, err)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Add order`s distance  is succesfuly"})
+}
+
 // ChecksOrderasResponse
 // @Summary Check order as response
 // @Security AKA
@@ -286,13 +332,7 @@ func ChecksOrderasResponse(c *gin.Context) {
 		HandleError(c, errs.ErrRecordNotFound)
 		return
 	}
-	var order models.Order
-	err = c.BindJSON(&order)
-	if err != nil {
-		HandleError(c, errs.ErrValidationFailed)
-		return
-	}
-	err = service.CheckOrderasResponse(order, int(userID), int(userID), int(id))
+	err = service.CheckOrderasResponse(true, int(id))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return

@@ -13,10 +13,20 @@ func InsertOrder(order models.Order) error {
 	}
 	return nil
 }
-func EditOrder(distance, startprice, allprice int, dphone string, did, id int) error {
-	err := db.GetconnectDB().Where("id=?", id).Updates(models.Order{Distance: distance, StartPrice: startprice, AllPrice: allprice, DriverPhone: dphone, DriverID: did}).Error
+func EditOrders(dphone string, did, id int) error {
+	var order models.Order
+	err := db.GetconnectDB().Model(&order).Where("id=?", id).Updates(models.Order{DriverPhone: dphone, DriverID: did}).Error
 	if err != nil {
-		logger.Error.Printf("[repository.EditOrder]error in update order %s\n", err.Error())
+		logger.Error.Printf("[repository.EditOrders]error in update order %s\n", err.Error())
+	}
+	return nil
+}
+func AddDistance(distance, id int) error {
+	var order models.Order
+	err := db.GetconnectDB().Model(&order).Select("distance").Where("id=?", id).Update("distance", distance).Error
+	if err != nil {
+		logger.Error.Printf("[repository.AddDistance]error in add order distance %s\n", err.Error())
+		return nil
 	}
 	return nil
 }
@@ -54,8 +64,9 @@ func GetAllOrdersByID(isdeleted bool, id uint) (order []models.GetOrder, err err
 	return order, nil
 }
 
-func CheckOrdersAsResponse(isresp bool, cid, did, id int) error {
-	err := db.GetconnectDB().Where("id=? AND (client_id=? OR driver_id=?)", id, cid, did).Select("is_response").Updates(models.Order{IsResponse: isresp}).Error
+func CheckOrdersAsResponse(isresp bool, id int) error {
+	var order models.Order
+	err := db.GetconnectDB().Model(&order).Select("is_response").Update("is_response", isresp).Error
 	if err != nil {
 		logger.Error.Printf("[repository.CheckRoutesAsResponse]error in checked order %s\n", err.Error())
 

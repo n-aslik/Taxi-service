@@ -15,6 +15,11 @@ definitions:
       message:
         type: string
     type: object
+  models.AddDistances:
+    properties:
+      distance:
+        type: integer
+    type: object
   models.Checkresponse:
     properties:
       is_response:
@@ -22,8 +27,6 @@ definitions:
     type: object
   models.EditOrder:
     properties:
-      distance:
-        type: integer
       driver_id:
         type: integer
       driver_phone:
@@ -54,6 +57,10 @@ definitions:
         $ref: '#/definitions/models.User'
       driver_id:
         type: integer
+      id:
+        type: integer
+      isDeleted:
+        type: boolean
     type: object
   models.Order:
     properties:
@@ -116,6 +123,12 @@ definitions:
         type: string
       driver_id:
         type: integer
+      id:
+        type: integer
+      isDeleted:
+        type: boolean
+      user:
+        $ref: '#/definitions/models.User'
     type: object
   models.UpdateUser:
     properties:
@@ -162,6 +175,48 @@ info:
   title: Fellow traveler API
   version: "1.0"
 paths:
+  /api/distances/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: add distance  existed order
+      operationId: add-order-distance
+      parameters:
+      - description: id of the order
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: add order distance
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddDistances'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.defaultResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: "404"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - AKA: []
+      summary: add order distance
+      tags:
+      - distances
   /api/orders:
     get:
       description: get list of all orders

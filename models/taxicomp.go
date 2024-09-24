@@ -7,7 +7,7 @@ type TaxiComp struct {
 	CompTitle string    `gorm:"not null" json:"company_title"`
 	IsDeleted bool      `gorm:"default false" json:"-"`
 	DriverID  int       `gorm:"references users(id)" json:"driver_id"`
-	User      User      `gorm:"foreignKey:DriverID"  json:"-"`
+	User      User      `gorm:"foreignKey:DriverID"`
 	CreatedAt time.Time `json:"-" gorm:"autoCreateTime"`
 	UpdatedAt time.Time `json:"-" gorm:"autoUpdateTime"`
 }

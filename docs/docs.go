@@ -15,6 +15,71 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/distances/{id}": {
+            "patch": {
+                "security": [
+                    {
+                        "AKA": []
+                    }
+                ],
+                "description": "add distance  existed order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "distances"
+                ],
+                "summary": "add order distance",
+                "operationId": "add-order-distance",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id of the order",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "add order distance",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.AddDistances"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.defaultResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "404"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/orders": {
             "get": {
                 "security": [
@@ -1188,6 +1253,14 @@ const docTemplate = `{
                 }
             }
         },
+        "models.AddDistances": {
+            "type": "object",
+            "properties": {
+                "distance": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.Checkresponse": {
             "type": "object",
             "properties": {
@@ -1199,9 +1272,6 @@ const docTemplate = `{
         "models.EditOrder": {
             "type": "object",
             "properties": {
-                "distance": {
-                    "type": "integer"
-                },
                 "driver_id": {
                     "type": "integer"
                 },
@@ -1247,6 +1317,12 @@ const docTemplate = `{
                 },
                 "driver_id": {
                     "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isDeleted": {
+                    "type": "boolean"
                 }
             }
         },
@@ -1343,6 +1419,15 @@ const docTemplate = `{
                 },
                 "driver_id": {
                     "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isDeleted": {
+                    "type": "boolean"
+                },
+                "user": {
+                    "$ref": "#/definitions/models.User"
                 }
             }
         },

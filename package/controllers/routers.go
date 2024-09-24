@@ -33,14 +33,14 @@ func InitRoutes() *gin.Engine {
 		usersG.DELETE("/:id", DeleteUsers, BlockUsers)
 	}
 
-	routesG := apiG.Group("/orders")
+	ordersG := apiG.Group("/orders")
 	{
-		routesG.POST("", CreateOrder)
-		routesG.GET("", GetAllOrders)
-		routesG.GET("/:id", GetAllOrdersByID)
-		routesG.PUT("/:id", UpdateOrderByID)
-		routesG.PATCH("/:id", ChecksOrderasResponse)
-		routesG.DELETE("/:id", DeleteOrderByID)
+		ordersG.POST("", CreateOrder)
+		ordersG.GET("", GetAllOrders)
+		ordersG.GET("/:id", GetAllOrdersByID)
+		ordersG.PUT("/:id", UpdateOrderByID)
+		ordersG.PATCH("/:id", ChecksOrderasResponse)
+		ordersG.DELETE("/:id", DeleteOrderByID)
 	}
 
 	taxicompsG := apiG.Group("/taxicomps")
@@ -54,6 +54,10 @@ func InitRoutes() *gin.Engine {
 	reportG := apiG.Group("/report")
 	{
 		reportG.GET("", Report)
+	}
+	distanceG := apiG.Group("/distances")
+	{
+		distanceG.PATCH("/:id", AddOrderDistanceandTotalByID)
 	}
 	return router
 }
