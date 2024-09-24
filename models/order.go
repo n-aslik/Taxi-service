@@ -13,7 +13,7 @@ type Order struct {
 	AllPrice      int       `json:"all_price"`
 	DriverPhone   string    `gorm:"not null" json:"driver_phone"`
 	ClientID      int       `gorm:"references users(id)" json:"-"`
-	DriverID      int       `gorm:"references users(id)" json:"-"`
+	DriverID      int       `gorm:"references users(id)" json:"driver_id"`
 	IsResponse    bool      `gorm:"default false" json:"is_response"`
 	IsDeleted     bool      `gorm:"default false" json:"-"`
 	CreatedAt     time.Time `json:"-" gorm:"autoCreateTime"`
