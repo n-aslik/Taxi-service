@@ -25,7 +25,7 @@ func UpdateOrder(order models.Order, id int) error {
 func AddOrdersDistanceandTotal(order models.Order, id int) error {
 	order.StartPrice = 10
 	for i := order.StartPrice; i <= order.StartPrice; i++ {
-		order.AllPrice = i
+		order.AllPrice += i
 		break
 	}
 	err := repository.AddDistanceandTotal(order.Distance, order.StartPrice, order.AllPrice, id)
