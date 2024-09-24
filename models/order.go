@@ -24,6 +24,14 @@ func (Order) TableName() string {
 	return "orders"
 }
 
+type EditOrder struct {
+	Distance    int    `gorm:"not null" json:"distance"`
+	StartPrice  int    `json:"-"`
+	AllPrice    int    `json:"-"`
+	DriverPhone string `gorm:"not null" json:"driver_phone"`
+	DriverID    int    `gorm:"references users(id)" json:"driver_id"`
+}
+
 type GetOrder struct {
 	ClientPhone string `gorm:"not null" json:"client_phone"`
 	From        string `gorm:"not null" json:"from"`

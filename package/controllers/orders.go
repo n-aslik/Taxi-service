@@ -188,7 +188,7 @@ func GetAllOrdersByID(c *gin.Context) {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	route, err := service.PrintAllOrderByID(false, uint(rid), uint(userID))
+	route, err := service.PrintAllOrderByID(false, uint(rid))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
@@ -205,12 +205,12 @@ func GetAllOrdersByID(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path integer true "id of the order"
-// @Param input body models.Order true "order update info"
+// @Param input body models.EditOrder true "order update info"
 // @Success 200 {object} defaultResponse
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Failure default {object} ErrorResponse
-// @Router /api/routes/{id} [put]
+// @Router /api/orders/{id} [put]
 func UpdateOrderByID(c *gin.Context) {
 	userID := c.GetUint(userIDCtx)
 	if userID == 0 {
@@ -263,7 +263,7 @@ func UpdateOrderByID(c *gin.Context) {
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Failure default {object} ErrorResponse
-// @Router /api/routes/{id} [patch]
+// @Router /api/orders/{id} [patch]
 func ChecksOrderasResponse(c *gin.Context) {
 	urole := c.GetString(userRoleCtx)
 	if urole == "" {
@@ -275,7 +275,7 @@ func ChecksOrderasResponse(c *gin.Context) {
 		return
 	}
 
-	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		logger.Error.Printf("[controllers.ChecksOrderasResponse] invalid order_id path parameter: %s\n", c.Param("id"))
 		HandleError(c, errs.ErrValidationFailed)
@@ -286,7 +286,13 @@ func ChecksOrderasResponse(c *gin.Context) {
 		HandleError(c, errs.ErrRecordNotFound)
 		return
 	}
-	err = service.CheckOrderasResponse(true, uint(userID), uint(id))
+	var order models.Order
+	err = c.BindJSON(&order)
+	if err != nil {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+	err = service.CheckOrderasResponse(order, int(userID), int(userID), int(id))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
@@ -306,7 +312,7 @@ func ChecksOrderasResponse(c *gin.Context) {
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Failure default {object} ErrorResponse
-// @Router /api/routes/{id} [delete]
+// @Router /api/orders/{id} [delete]
 func DeleteOrderByID(c *gin.Context) {
 	urole := c.GetString(userRoleCtx)
 	if urole == "" {

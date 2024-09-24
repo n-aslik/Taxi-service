@@ -20,6 +20,15 @@ definitions:
       is_response:
         type: boolean
     type: object
+  models.EditOrder:
+    properties:
+      distance:
+        type: integer
+      driver_id:
+        type: integer
+      driver_phone:
+        type: string
+    type: object
   models.GetOrder:
     properties:
       all_price:
@@ -107,6 +116,17 @@ definitions:
         type: string
       driver_id:
         type: integer
+    type: object
+  models.UpdateUser:
+    properties:
+      address:
+        type: string
+      full_name:
+        type: string
+      phone_number:
+        type: string
+      username:
+        type: string
     type: object
   models.User:
     properties:
@@ -224,6 +244,37 @@ paths:
       tags:
       - orders
   /api/orders/{id}:
+    delete:
+      description: delete route by ID
+      operationId: delete-route-by-id
+      parameters:
+      - description: id of the route
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.defaultResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: "404"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - AKA: []
+      summary: Delete Order By ID
+      tags:
+      - orders
     get:
       description: get order by ID
       operationId: get-order-by-id
@@ -255,83 +306,6 @@ paths:
       security:
       - AKA: []
       summary: Get Order By ID
-      tags:
-      - orders
-  /api/report:
-    get:
-      description: get list of report
-      operationId: get-report
-      parameters:
-      - description: fill if you need search
-        in: query
-        name: q
-        type: string
-      - description: fill if you need search
-        in: query
-        name: is_response
-        required: true
-        type: boolean
-      - description: fill if you need search
-        in: query
-        name: all_price
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Reports'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            type: "404"
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/controllers.ErrorResponse'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/controllers.ErrorResponse'
-      security:
-      - AKA: []
-      summary: Get Report
-      tags:
-      - report
-  /api/routes/{id}:
-    delete:
-      description: delete route by ID
-      operationId: delete-route-by-id
-      parameters:
-      - description: id of the route
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/controllers.defaultResponse'
-        "400":
-          description: Bad Request
-          schema:
-            type: "404"
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/controllers.ErrorResponse'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/controllers.ErrorResponse'
-      security:
-      - AKA: []
-      summary: Delete Order By ID
       tags:
       - orders
     patch:
@@ -391,7 +365,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/models.Order'
+          $ref: '#/definitions/models.EditOrder'
       produces:
       - application/json
       responses:
@@ -416,6 +390,51 @@ paths:
       summary: Update Order
       tags:
       - orders
+  /api/report:
+    get:
+      description: get list of report
+      operationId: get-report
+      parameters:
+      - description: fill if you need search
+        in: query
+        name: q
+        type: string
+      - description: fill if you need search
+        in: query
+        name: is_response
+        required: true
+        type: boolean
+      - description: fill if you need search
+        in: query
+        name: all_price
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Reports'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: "404"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - AKA: []
+      summary: Get Report
+      tags:
+      - report
   /api/taxicomps:
     get:
       description: get list of all taxi companies
@@ -791,7 +810,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/models.UpdateUser'
       produces:
       - application/json
       responses:

@@ -51,7 +51,7 @@ func CreateUsers(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path integer true "id of the user"
-// @Param input body models.User true "user update info"
+// @Param input body models.UpdateUser true "user update info"
 // @Success 200 {object} defaultResponse
 // @Failure 400 404 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
@@ -98,15 +98,26 @@ func EditUsers(c *gin.Context) {
 // @Router /api/users/{id} [patch]
 func EditUsersRating(c *gin.Context) {
 	urole := c.GetString(userRoleCtx)
-	if urole == "" {
-		HandleError(c, errs.ErrValidationFailed)
-		return
-	}
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		HandleError(c, err)
 		return
 	}
+	if urole != "admin" {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+	if urole != "user" {
+		if id == 1 {
+			HandleError(c, errs.ErrValidationFailed)
+			return
+		}
+	}
+	if urole == "" {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+
 	var user models.User
 	err = c.BindJSON(&user)
 	if err != nil {
@@ -211,16 +222,23 @@ func DeleteUsers(c *gin.Context) {
 // @Failure default {object} ErrorResponse
 // @Router /api/users [get]
 func PrintUsers(c *gin.Context) {
+	role := c.Query("role")
 	urole := c.GetString(userRoleCtx)
 	if urole == "" {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	if urole != "admin" && urole != "user" {
+	if urole != "admin" {
 		HandleError(c, errs.ErrPermissionDenied)
 		return
 	}
-	role := c.Query("role")
+	if urole != "user" {
+		if role == "admin" {
+			HandleError(c, errs.ErrPermissionDenied)
+			return
+		}
+	}
+
 	logger.Info.Printf("Client with ip: [%s] requested list of users\n", c.ClientIP())
 	users, err := service.PrintAllUsers(false, false, role)
 	if err != nil {

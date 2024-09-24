@@ -191,78 +191,7 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/api/report": {
-            "get": {
-                "security": [
-                    {
-                        "AKA": []
-                    }
-                ],
-                "description": "get list of report",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "report"
-                ],
-                "summary": "Get Report",
-                "operationId": "get-report",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "fill if you need search",
-                        "name": "q",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "fill if you need search",
-                        "name": "is_response",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "fill if you need search",
-                        "name": "all_price",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Reports"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "404"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/routes/{id}": {
+            },
             "put": {
                 "security": [
                     {
@@ -295,7 +224,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Order"
+                            "$ref": "#/definitions/models.EditOrder"
                         }
                     }
                 ],
@@ -415,6 +344,75 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers.defaultResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "404"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/report": {
+            "get": {
+                "security": [
+                    {
+                        "AKA": []
+                    }
+                ],
+                "description": "get list of report",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "report"
+                ],
+                "summary": "Get Report",
+                "operationId": "get-report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "fill if you need search",
+                        "name": "q",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "fill if you need search",
+                        "name": "is_response",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "fill if you need search",
+                        "name": "all_price",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Reports"
+                            }
                         }
                     },
                     "400": {
@@ -915,7 +913,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/models.UpdateUser"
                         }
                     }
                 ],
@@ -1198,6 +1196,20 @@ const docTemplate = `{
                 }
             }
         },
+        "models.EditOrder": {
+            "type": "object",
+            "properties": {
+                "distance": {
+                    "type": "integer"
+                },
+                "driver_id": {
+                    "type": "integer"
+                },
+                "driver_phone": {
+                    "type": "string"
+                }
+            }
+        },
         "models.GetOrder": {
             "type": "object",
             "properties": {
@@ -1331,6 +1343,23 @@ const docTemplate = `{
                 },
                 "driver_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.UpdateUser": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         },

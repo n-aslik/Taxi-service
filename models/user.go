@@ -23,6 +23,13 @@ func (User) TableName() string {
 	return "users"
 }
 
+type UpdateUser struct {
+	FullName    string `json:"full_name"`
+	Username    string `json:"username" gorm:"unique"`
+	PhoneNumber string `json:"phone_number"`
+	Address     string `json:"address"`
+}
+
 type SwagSignUp struct {
 	FullName    string `json:"full_name"`
 	Username    string `json:"username" gorm:"unique"`

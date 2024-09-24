@@ -14,12 +14,12 @@ func AddOrder(order models.Order) error {
 	return nil
 }
 func UpdateOrder(order models.Order, id int) error {
-	for i := 10; i <= order.Distance*order.StartPrice; i++ {
-		order.AllPrice += i
-	}
-	err := repository.EditOrder(order.Distance, order.DriverPhone, order.DriverID, id)
+	order.StartPrice = 10
+	order.AllPrice += order.Distance * order.StartPrice
+	err := repository.EditOrder(order.Distance, order.StartPrice, order.AllPrice, order.DriverPhone, order.DriverID, id)
 	if err != nil {
 		fmt.Println(err)
+
 	}
 	return nil
 }
@@ -30,8 +30,8 @@ func DeleteOrder(isdeleted bool, id int) error {
 	}
 	return nil
 }
-func CheckOrderasResponse(isresp bool, id, uid uint) error {
-	err := repository.CheckOrdersAsResponse(isresp, id, uid)
+func CheckOrderasResponse(order models.Order, id, cid, did int) error {
+	err := repository.CheckOrdersAsResponse(order.IsResponse, id, cid, did)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -55,8 +55,8 @@ func PrintAllOrders(isdeleted, isresp bool, price int, uid uint) (order []models
 	return order, nil
 }
 
-func PrintAllOrderByID(isdeleted bool, id, uid uint) (route []models.GetOrder, err error) {
-	route, err = repository.GetAllOrdersByID(isdeleted, id, uid)
+func PrintAllOrderByID(isdeleted bool, id uint) (route []models.GetOrder, err error) {
+	route, err = repository.GetAllOrdersByID(isdeleted, id)
 	if err != nil {
 
 		return route, err
