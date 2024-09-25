@@ -71,5 +71,6 @@ type Reports struct {
 }
 
 type Checkresponse struct {
-	IsResponse bool `json:"is_response"`
+	IsResponsec bool `json:"is_responsec"`
+	IsResponsed bool `json:"is_responsed"`
 }
