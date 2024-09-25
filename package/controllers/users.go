@@ -103,15 +103,14 @@ func EditUsersRating(c *gin.Context) {
 		HandleError(c, err)
 		return
 	}
-	if urole != "admin" {
+	if urole != "admin" && urole != "user" {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	if urole != "user" {
-		if id == 1 {
-			HandleError(c, errs.ErrValidationFailed)
-			return
-		}
+	if urole == "user" && id == 1 {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+
 	}
 	if urole == "" {
 		HandleError(c, errs.ErrValidationFailed)
@@ -229,10 +228,12 @@ func PrintUsers(c *gin.Context) {
 		return
 	}
 	if urole != "admin" && urole != "user" {
-		if role == "admin" {
-			HandleError(c, errs.ErrPermissionDenied)
-			return
-		}
+		HandleError(c, errs.ErrPermissionDenied)
+		return
+	}
+	if urole == "user" && role == "admin" {
+		HandleError(c, errs.ErrPermissionDenied)
+		return
 	}
 
 	logger.Info.Printf("Client with ip: [%s] requested list of users\n", c.ClientIP())
