@@ -1284,7 +1284,10 @@ const docTemplate = `{
         "models.Checkresponse": {
             "type": "object",
             "properties": {
-                "is_response": {
+                "is_responsec": {
+                    "type": "boolean"
+                },
+                "is_responsed": {
                     "type": "boolean"
                 }
             }

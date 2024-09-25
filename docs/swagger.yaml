@@ -26,7 +26,9 @@ definitions:
     type: object
   models.Checkresponse:
     properties:
-      is_response:
+      is_responsec:
+        type: boolean
+      is_responsed:
         type: boolean
     type: object
   models.EditOrder:
