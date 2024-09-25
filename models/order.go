@@ -56,17 +56,18 @@ type GetOrder struct {
 }
 
 type Reports struct {
-	From       string    `gorm:"not null" json:"from"`
-	Into       string    `gorm:"not null" json:"into"`
-	Distance   int       `gorm:"not null" json:"distance"`
-	StartPrice int       `json:"start_price"`
-	AllPrice   int       `json:"all_price"`
-	ClientID   int       `gorm:"references users(id)" json:"client_id"`
-	DriverID   int       `gorm:"references users(id)" json:"driver_id"`
-	IsResponse bool      `gorm:"default false" json:"is_response"`
-	IsDeleted  bool      `gorm:"default false" json:"is_deleted"`
-	CreatedAt  time.Time `json:"-" gorm:"autoCreateTime"`
-	UpdatedAt  time.Time `json:"-" gorm:"autoUpdateTime"`
+	From        string    `gorm:"not null" json:"from"`
+	Into        string    `gorm:"not null" json:"into"`
+	Distance    int       `gorm:"not null" json:"distance"`
+	StartPrice  int       `json:"start_price"`
+	AllPrice    int       `json:"all_price"`
+	ClientID    int       `gorm:"references users(id)" json:"client_id"`
+	DriverID    int       `gorm:"references users(id)" json:"driver_id"`
+	IsResponsec bool      `gorm:"default false" json:"is_responsec"`
+	IsResponsed bool      `gorm:"default false" json:"is_responsed"`
+	IsDeleted   bool      `gorm:"default false" json:"is_deleted"`
+	CreatedAt   time.Time `json:"-" gorm:"autoCreateTime"`
+	UpdatedAt   time.Time `json:"-" gorm:"autoUpdateTime"`
 }
 
 type Checkresponse struct {
