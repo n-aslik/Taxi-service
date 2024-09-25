@@ -65,7 +65,7 @@ func GetAllOrdersByID(isdeleted bool, id uint) (order []models.GetOrder, err err
 }
 
 func CheckOrdersAsResponse(isrespc, isrespd bool, id int) error {
-	err := db.GetconnectDB().Select("is_responsec,is_responsed").Where("id=?", id).Updates(models.Order{IsResponsec: isrespc, IsResponsed: isrespd}).Error
+	err := db.GetconnectDB().Select("is_responsec", "is_responsed").Where("id=?", id).Updates(models.Order{IsResponsec: isrespc, IsResponsed: isrespd}).Error
 	if err != nil {
 		logger.Error.Printf("[repository.CheckRoutesAsResponse]error in checked order %s\n", err.Error())
 
