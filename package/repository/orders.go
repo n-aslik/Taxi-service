@@ -56,7 +56,7 @@ func GetAllOrders(isdeleted, isrespc, isrespd bool, price int, uid uint) (order 
 	return order, nil
 }
 func GetAllOrdersByID(isdeleted bool, id uint) (order []models.GetOrder, err error) {
-	err = db.GetconnectDB().Raw("SELECT o.client_phone, o.from, o.into, o.distance, o.start_price, o.all_price,o.driver_phone, o.is_responsec,isresponsed FROM orders o WHERE o.is_deleted=?  AND o.id=?", isdeleted, id).Scan(&order).Error
+	err = db.GetconnectDB().Raw("SELECT o.client_phone, o.from, o.into, o.distance, o.start_price, o.all_price,o.driver_phone, o.is_responsec,is_responsed FROM orders o WHERE o.is_deleted=?  AND o.id=?", isdeleted, id).Scan(&order).Error
 	if err != nil {
 		logger.Error.Printf("[repository.GetAllOrdersByID]error in getting all order by id %s\n", err.Error())
 		return order, err
