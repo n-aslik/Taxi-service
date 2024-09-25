@@ -67,8 +67,8 @@ func CreateOrder(c *gin.Context) {
 // @ID get-report
 // @Produce json
 // @Param q query string false "fill if you need search"
-// @Param is_responsebyc query bool true "fill if you need search"
-// @Param is_responsebyd query bool true "fill if you need search"
+// @Param is_responsec query bool true "fill if you need search"
+// @Param is_responsed query bool true "fill if you need search"
 // @Param all_price query int true "fill if you need search"
 // @Success 200 {array} models.Reports
 // @Failure 400 404 {object} ErrorResponse
@@ -125,8 +125,8 @@ func Report(c *gin.Context) {
 // @ID get-all-orders
 // @Produce json
 // @Param q query string false "fill if you need search"
-// @Param is_responsebyc query bool true "fill if you need search"
-// @Param is_responsebyd query bool true "fill if you need search"
+// @Param is_responsec query bool true "fill if you need search"
+// @Param is_responsed query bool true "fill if you need search"
 // @Param all_price query int true "fill if you need search"
 // @Success 200 {array} models.GetOrder
 // @Failure 400 404 {object} ErrorResponse
