@@ -41,23 +41,23 @@ func DeleteOrder(isdeleted bool, id int) error {
 	return nil
 }
 func CheckOrderasResponse(order models.Order, id int) error {
-	err := repository.CheckOrdersAsResponse(order.IsResponse, id)
+	err := repository.CheckOrdersAsResponse(order.IsResponsec, order.IsResponsed, id)
 	if err != nil {
 		fmt.Println(err)
 	}
 	return nil
 }
 
-func Printreport(isresp, isdeletedr, isblocked, isdeletedu bool, price int) (order []models.Reports, err error) {
-	order, err = repository.Report(isresp, isdeletedr, isblocked, isdeletedu, price)
+func Printreport(isrespc, isrespd, isdeletedr, isblocked, isdeletedu bool, price int) (order []models.Reports, err error) {
+	order, err = repository.Report(isrespc, isrespd, isdeletedr, isblocked, isdeletedu, price)
 	if err != nil {
 
 		return order, err
 	}
 	return order, nil
 }
-func PrintAllOrders(isdeleted, isresp bool, price int, uid uint) (order []models.GetOrder, err error) {
-	order, err = repository.GetAllOrders(isdeleted, isresp, price, uid)
+func PrintAllOrders(isdeleted, isrespc, isrespd bool, price int, uid uint) (order []models.GetOrder, err error) {
+	order, err = repository.GetAllOrders(isdeleted, isrespc, isrespd, price, uid)
 	if err != nil {
 
 		return order, err

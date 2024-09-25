@@ -14,7 +14,8 @@ type Order struct {
 	DriverPhone   string    `gorm:"not null" json:"driver_phone"`
 	ClientID      int       `gorm:"references users(id)" json:"-"`
 	DriverID      int       `gorm:"references users(id)" json:"driver_id"`
-	IsResponse    bool      `json:"is_response"`
+	IsResponsec   bool      `json:"is_responsec"`
+	IsResponsed   bool      `json:"is_responsed"`
 	IsDeleted     bool      `gorm:"default false" json:"-"`
 	CreatedAt     time.Time `json:"-" gorm:"autoCreateTime"`
 	UpdatedAt     time.Time `json:"-" gorm:"autoUpdateTime"`

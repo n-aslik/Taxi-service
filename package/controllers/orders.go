@@ -67,7 +67,8 @@ func CreateOrder(c *gin.Context) {
 // @ID get-report
 // @Produce json
 // @Param q query string false "fill if you need search"
-// @Param is_response query bool true "fill if you need search"
+// @Param is_responsebyc query bool true "fill if you need search"
+// @Param is_responsebyd query bool true "fill if you need search"
 // @Param all_price query int true "fill if you need search"
 // @Success 200 {array} models.Reports
 // @Failure 400 404 {object} ErrorResponse
@@ -90,8 +91,14 @@ func Report(c *gin.Context) {
 		return
 	}
 
-	isRespStr := c.Query("is_response")
-	isResp, err := strconv.ParseBool(isRespStr)
+	isRespStr1 := c.Query("is_responsec")
+	isRespc, err := strconv.ParseBool(isRespStr1)
+	if err != nil {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+	isRespStr2 := c.Query("is_responsed")
+	isRespd, err := strconv.ParseBool(isRespStr2)
 	if err != nil {
 		HandleError(c, errs.ErrValidationFailed)
 		return
@@ -102,7 +109,7 @@ func Report(c *gin.Context) {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	report, err := service.Printreport(isResp, false, false, false, price)
+	report, err := service.Printreport(isRespc, isRespd, false, false, false, price)
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return
@@ -118,7 +125,8 @@ func Report(c *gin.Context) {
 // @ID get-all-orders
 // @Produce json
 // @Param q query string false "fill if you need search"
-// @Param is_response query bool true "fill if you need search"
+// @Param is_responsebyc query bool true "fill if you need search"
+// @Param is_responsebyd query bool true "fill if you need search"
 // @Param all_price query int true "fill if you need search"
 // @Success 200 {array} models.GetOrder
 // @Failure 400 404 {object} ErrorResponse
@@ -137,8 +145,14 @@ func GetAllOrders(c *gin.Context) {
 		return
 	}
 
-	isRespStr := c.Query("is_response")
-	isResp, err := strconv.ParseBool(isRespStr)
+	isRespStr1 := c.Query("is_responsec")
+	isRespc, err := strconv.ParseBool(isRespStr1)
+	if err != nil {
+		HandleError(c, errs.ErrValidationFailed)
+		return
+	}
+	isRespStr2 := c.Query("is_responsed")
+	isRespd, err := strconv.ParseBool(isRespStr2)
 	if err != nil {
 		HandleError(c, errs.ErrValidationFailed)
 		return
@@ -150,7 +164,7 @@ func GetAllOrders(c *gin.Context) {
 		return
 	}
 
-	routes, err := service.PrintAllOrders(false, isResp, price, uint(userID))
+	routes, err := service.PrintAllOrders(false, isRespc, isRespd, price, uint(userID))
 	if err != nil {
 		HandleError(c, errs.ErrRoutesNotFound)
 		return

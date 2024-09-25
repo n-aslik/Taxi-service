@@ -39,16 +39,16 @@ func SoftDeleteOrder(isdeleted bool, id int) error {
 	return nil
 }
 
-func Report(isresp, isdeletedr, isblocked, isdeletedu bool, price int) (order []models.Reports, err error) {
-	err = db.GetconnectDB().Raw("Select o.from, o.into, o.is_response, SUM(DISTINCT o.distance) as distance ,SUM(DISTINCT o.start_price) as start_price, SUM(o.all_price/2) as all_price, COUNT(DISTINCT CASE WHEN u.role='user' THEN u.id END) as client_id, COUNT(DISTINCT CASE WHEN u.role='driver' THEN u.id END) as driver_id FROM orders o, users u Where o.client_id=u.id OR o.driver_id=u.id  AND  o.is_response=? AND o.is_deleted=?  AND u.is_blocked=? AND u.is_deleted=? AND all_price<=? GROUP BY  o.from,o.into,o.is_response ORDER BY all_price DESC", isresp, isdeletedr, isblocked, isdeletedu, price).Scan(&order).Error
+func Report(isrespc, isrespd, isdeletedr, isblocked, isdeletedu bool, price int) (order []models.Reports, err error) {
+	err = db.GetconnectDB().Raw("Select o.from, o.into, o.is_responsec,o.is_responsed,  SUM(DISTINCT o.distance) as distance ,SUM(DISTINCT o.start_price) as start_price, SUM(o.all_price/2) as all_price, COUNT(DISTINCT CASE WHEN u.role='user' THEN u.id END) as client_id, COUNT(DISTINCT CASE WHEN u.role='driver' THEN u.id END) as driver_id FROM orders o, users u Where o.client_id=u.id OR o.driver_id=u.id  AND  o.is_responsec=? AND o.is_responsed=? AND o.is_deleted=?  AND u.is_blocked=? AND u.is_deleted=? AND all_price<=? GROUP BY  o.from,o.into,o.is_responsec, o.is_responsed ORDER BY all_price DESC", isrespc, isrespd, isdeletedr, isblocked, isdeletedu, price).Scan(&order).Error
 	if err != nil {
 		logger.Error.Printf("[repository.Report]error in report %s\n", err.Error())
 		return order, err
 	}
 	return order, nil
 }
-func GetAllOrders(isdeleted, isresp bool, price int, uid uint) (order []models.GetOrder, err error) {
-	err = db.GetconnectDB().Raw("SELECT DISTINCT o.client_phone, o.from, o.into,  o.distance, o.start_price, o.all_price, o.driver_phone, o.is_response FROM orders o WHERE o.is_deleted=? AND o.is_response=? AND o.all_price<=? AND (o.driver_id=? OR o.client_id=?)", isdeleted, isresp, price, uid, uid).Scan(&order).Error
+func GetAllOrders(isdeleted, isrespc, isrespd bool, price int, uid uint) (order []models.GetOrder, err error) {
+	err = db.GetconnectDB().Raw("SELECT DISTINCT o.client_phone, o.from, o.into,  o.distance, o.start_price, o.all_price, o.driver_phone, o.is_responsec,o.is_responsed FROM orders o WHERE o.is_deleted=? AND o.is_responsec=? AND o.is_responsed=? AND o.all_price<=? AND (o.driver_id=? OR o.client_id=?)", isdeleted, isrespc, isrespd, price, uid, uid).Scan(&order).Error
 	if err != nil {
 		logger.Error.Printf("[repository.GetAllOrders]error in getting all order %s\n", err.Error())
 		return order, err
@@ -56,7 +56,7 @@ func GetAllOrders(isdeleted, isresp bool, price int, uid uint) (order []models.G
 	return order, nil
 }
 func GetAllOrdersByID(isdeleted bool, id uint) (order []models.GetOrder, err error) {
-	err = db.GetconnectDB().Raw("SELECT o.client_phone, o.from, o.into, o.distance, o.start_price, o.all_price,o.driver_phone, o.is_response FROM orders o WHERE o.is_deleted=?  AND o.id=?", isdeleted, id).Scan(&order).Error
+	err = db.GetconnectDB().Raw("SELECT o.client_phone, o.from, o.into, o.distance, o.start_price, o.all_price,o.driver_phone, o.is_responsec,isresponsed FROM orders o WHERE o.is_deleted=?  AND o.id=?", isdeleted, id).Scan(&order).Error
 	if err != nil {
 		logger.Error.Printf("[repository.GetAllOrdersByID]error in getting all order by id %s\n", err.Error())
 		return order, err
@@ -64,8 +64,8 @@ func GetAllOrdersByID(isdeleted bool, id uint) (order []models.GetOrder, err err
 	return order, nil
 }
 
-func CheckOrdersAsResponse(isresp bool, id int) error {
-	err := db.GetconnectDB().Select("is_response").Where("id=?", id).Updates(models.Order{IsResponse: isresp}).Error
+func CheckOrdersAsResponse(isrespc, isrespd bool, id int) error {
+	err := db.GetconnectDB().Select("is_responsec,is_responsed").Where("id=?", id).Updates(models.Order{IsResponsec: isrespc, IsResponsed: isrespd}).Error
 	if err != nil {
 		logger.Error.Printf("[repository.CheckRoutesAsResponse]error in checked order %s\n", err.Error())
 
