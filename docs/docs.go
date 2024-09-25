@@ -106,14 +106,14 @@ const docTemplate = `{
                     {
                         "type": "boolean",
                         "description": "fill if you need search",
-                        "name": "is_responsebyc",
+                        "name": "is_responsec",
                         "in": "query",
                         "required": true
                     },
                     {
                         "type": "boolean",
                         "description": "fill if you need search",
-                        "name": "is_responsebyd",
+                        "name": "is_responsed",
                         "in": "query",
                         "required": true
                     },
@@ -465,14 +465,14 @@ const docTemplate = `{
                     {
                         "type": "boolean",
                         "description": "fill if you need search",
-                        "name": "is_responsebyc",
+                        "name": "is_responsec",
                         "in": "query",
                         "required": true
                     },
                     {
                         "type": "boolean",
                         "description": "fill if you need search",
-                        "name": "is_responsebyd",
+                        "name": "is_responsed",
                         "in": "query",
                         "required": true
                     },

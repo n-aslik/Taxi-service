@@ -230,12 +230,12 @@ paths:
         type: string
       - description: fill if you need search
         in: query
-        name: is_responsebyc
+        name: is_responsec
         required: true
         type: boolean
       - description: fill if you need search
         in: query
-        name: is_responsebyd
+        name: is_responsed
         required: true
         type: boolean
       - description: fill if you need search
@@ -463,12 +463,12 @@ paths:
         type: string
       - description: fill if you need search
         in: query
-        name: is_responsebyc
+        name: is_responsec
         required: true
         type: boolean
       - description: fill if you need search
         in: query
-        name: is_responsebyd
+        name: is_responsed
         required: true
         type: boolean
       - description: fill if you need search
