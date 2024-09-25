@@ -104,11 +104,11 @@ func EditUsersRating(c *gin.Context) {
 		return
 	}
 	if urole != "admin" && urole != "user" {
-		HandleError(c, errs.ErrValidationFailed)
+		HandleError(c, errs.ErrPermissionDenied)
 		return
 	}
 	if urole == "user" && id == 1 {
-		HandleError(c, errs.ErrValidationFailed)
+		HandleError(c, errs.ErrPermissionDenied)
 		return
 
 	}
