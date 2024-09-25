@@ -228,11 +228,7 @@ func PrintUsers(c *gin.Context) {
 		HandleError(c, errs.ErrValidationFailed)
 		return
 	}
-	if urole != "admin" {
-		HandleError(c, errs.ErrPermissionDenied)
-		return
-	}
-	if urole != "user" {
+	if urole != "admin" && urole != "user" {
 		if role == "admin" {
 			HandleError(c, errs.ErrPermissionDenied)
 			return
