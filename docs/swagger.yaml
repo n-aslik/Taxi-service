@@ -50,7 +50,9 @@ definitions:
         type: string
       into:
         type: string
-      is_response:
+      is_responsec:
+        type: boolean
+      is_responsed:
         type: boolean
       start_price:
         type: integer
@@ -85,7 +87,9 @@ definitions:
         type: string
       is_deleted:
         type: boolean
-      is_response:
+      is_responsec:
+        type: boolean
+      is_responsed:
         type: boolean
       start_price:
         type: integer

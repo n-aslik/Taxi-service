@@ -1321,7 +1321,10 @@ const docTemplate = `{
                 "into": {
                     "type": "string"
                 },
-                "is_response": {
+                "is_responsec": {
+                    "type": "boolean"
+                },
+                "is_responsed": {
                     "type": "boolean"
                 },
                 "start_price": {
@@ -1375,7 +1378,10 @@ const docTemplate = `{
                 "is_deleted": {
                     "type": "boolean"
                 },
-                "is_response": {
+                "is_responsec": {
+                    "type": "boolean"
+                },
+                "is_responsed": {
                     "type": "boolean"
                 },
                 "start_price": {
