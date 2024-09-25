@@ -226,7 +226,12 @@ paths:
         type: string
       - description: fill if you need search
         in: query
-        name: is_response
+        name: is_responsebyc
+        required: true
+        type: boolean
+      - description: fill if you need search
+        in: query
+        name: is_responsebyd
         required: true
         type: boolean
       - description: fill if you need search
@@ -454,7 +459,12 @@ paths:
         type: string
       - description: fill if you need search
         in: query
-        name: is_response
+        name: is_responsebyc
+        required: true
+        type: boolean
+      - description: fill if you need search
+        in: query
+        name: is_responsebyd
         required: true
         type: boolean
       - description: fill if you need search
