@@ -19,3 +19,11 @@ func SignIn(username, password string) (accessToken string, err error) {
 
 	return accessToken, nil
 }
+
+func RefreshToken(refreshToken string, err,error) {
+	refreshToken, err - GenerateToken(uint(user.ID), user.Username, user.Role, user.PhoneNumber, user.Address)
+	if err != nil{
+		return "", err
+		}
+	return refreshToken, nil
+}
