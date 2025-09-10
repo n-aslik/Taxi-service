@@ -65,3 +65,32 @@ func SignIn(c *gin.Context) {
 
 	c.JSON(http.StatusOK, accessTokenResponse{accessToken})
 }
+
+// RefreshToken
+// @Summary RefreshToken
+// @Tags auth
+// @Description sign in to account
+// @ID sign-in-to-account
+// @Accept json
+// @Produce json
+// @Param input body models.SwagSignIn true "sign-in info"
+// @Success 200 {object} accessTokenResponse
+// @Failure 400 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Failure default {object} ErrorResponse
+// @Router /auth/sign-in [post]
+func RefreshToken(c *gin.Context) {
+	var user models.User
+	if err := c.BindJSON(&user); err != nil {
+		HandleError(c, err)
+		return
+	}
+
+	accessToken, err := service.SignIn(user.Username, user.Password)
+	if err != nil {
+		HandleError(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, accessTokenResponse{accessToken})
+}
