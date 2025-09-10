@@ -32,6 +32,10 @@ type accessTokenResponse struct {
 	AccessToken string `json:"access_token"`
 }
 
+type refreshTokenResponse struct {
+	RefreshToken string `json:refresh_token`
+}
+
 func HandleError(c *gin.Context, err error) {
 	if errors.Is(err, errs.ErrUsernameUniquenessFailed) ||
 		errors.Is(err, errs.ErrIncorrectUsernameorPassword) ||
