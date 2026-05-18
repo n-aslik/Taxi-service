@@ -37,6 +37,7 @@ func GenerateToken(userID uint, username, role, phone, address string) (string, 
 	return token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
 }
 
+
 // ParseToken парсит JWT токен и возвращает кастомные поля
 func ParseToken(tokenString string) (*CustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {

@@ -7,7 +7,6 @@ import (
 	"Taxi_service/package/controllers"
 	"Taxi_service/server"
 	"context"
-	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -31,7 +30,7 @@ import (
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
-		panic(errors.New(fmt.Sprintf("error loading .env file. Error is %s", err)))
+		panic(fmt.Errorf("error loading .env file. Error is %s", err))
 	}
 	err = configs.ReadString()
 	if err != nil {
